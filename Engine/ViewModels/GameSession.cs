@@ -1,9 +1,4 @@
 ﻿using Engine.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine.ViewModels
 {
@@ -15,7 +10,12 @@ namespace Engine.ViewModels
         {
             CurrentPlayer = new Player()
             {
-                Name = "JohnDoe"
+                Name = "John Doe",
+                CharacterClass = "Scientist",
+                HitPoints = 1,
+                Credits = 100,
+                Experience = 0,
+                Level = 1
             };
         }
     }

@@ -1,9 +1,9 @@
-﻿<Window x:Class="UURRPG.MainWindow"
+﻿<Window x:Class="UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UURRPG"
+        xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         Title="Unoriginal Ugly Rouglike RPG" Height="450" Width="800" WindowState="Maximized">
     <Grid>
@@ -18,9 +18,36 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Menu" Background="DimGray" Grid.ColumnSpan="2"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Stats" Background="Black" Foreground="White"/>
-        <Label Grid.Row="1" Grid.Column="1" Content="Log" Background="Black" Foreground="White"/>
+        <Grid Grid.Row="1" Grid.Column="0"  Background="Black">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Name:" Foreground="White"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="{Binding CurrentPlayer.Name }" Foreground="White"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Class:" Foreground="White"/>
+            <Label Grid.Row="1" Grid.Column="1" Content="{Binding CurrentPlayer.CharacterClass }" Foreground="White"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Hit Points:" Foreground="White"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="{Binding CurrentPlayer.HitPoints }" Foreground="White"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Credits:" Foreground="White"/>
+            <Label Grid.Row="3" Grid.Column="1" Content="{Binding CurrentPlayer.Credits }" Foreground="White"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="Level:" Foreground="White"/>
+            <Label Grid.Row="4" Grid.Column="1" Content="{Binding CurrentPlayer.Level }" Foreground="White"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="XP:" Foreground="White"/>
+            <Label Grid.Row="5" Grid.Column="1" Content="{Binding CurrentPlayer.Experience }" Foreground="White"/>
+        </Grid>
+        <Label Grid.Row="1" Grid.Column="1" Content="Control" Background="Black" Foreground="White"/>
         <Label Grid.Row="2" Grid.Column="0" Content="Inventory|Journal" Background="LightGoldenrodYellow"/>
-        <Label Grid.Row="2" Grid.Column="1" Content="Control" Background="Black" Foreground="White"/>
+        <Label Grid.Row="2" Grid.Column="1" Content="Log" Background="Black" Foreground="White"/>
     </Grid>
 </Window>
