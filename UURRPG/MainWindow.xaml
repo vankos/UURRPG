@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
-        Title="Unoriginal Ugly Rouglike RPG" Height="450" Width="800" WindowState="Maximized">
+        Title="Unoriginal Ugly Rouglike RPG" Height="450" Width="800" WindowState="Maximized"
+        FontSize="11pt">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height ="auto"/>
@@ -14,10 +15,11 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Menu" Background="DimGray" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Menu" Background="DimGray" Grid.ColumnSpan="3"/>
         <Grid Grid.Row="1" Grid.Column="0"  Background="Black">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -46,8 +48,27 @@
             <Label Grid.Row="5" Grid.Column="0" Content="XP:" Foreground="White"/>
             <Label Grid.Row="5" Grid.Column="1" Content="{Binding CurrentPlayer.Experience }" Foreground="White"/>
         </Grid>
-        <Label Grid.Row="1" Grid.Column="1" Content="Control" Background="Black" Foreground="White"/>
+        <Grid Grid.Row="1" Background="Black" Grid.ColumnSpan="3" Margin="256,2,8,223" Grid.RowSpan="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding CurrentLocation.Name}" Foreground="White"/>
+                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding CurrentLocation.BackgroundImageName}"/>
+                    <TextBlock Grid.Row="2" HorizontalAlignment="Center" Text="{Binding CurrentLocation.Description}" Foreground="White"/>
+                </Grid>
+            </Border>
+            
+        </Grid>
+        <Label Grid.Row="2" Grid.Column="1" Content="Control" Background="Black" Foreground="White"/>
         <Label Grid.Row="2" Grid.Column="0" Content="Inventory|Journal" Background="LightGoldenrodYellow"/>
-        <Label Grid.Row="2" Grid.Column="1" Content="Log" Background="Black" Foreground="White"/>
+        <Label Grid.Row="2" Grid.Column="2" Content="Log" Background="Black" Foreground="White"/>
     </Grid>
 </Window>
