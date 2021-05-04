@@ -1,4 +1,5 @@
 ﻿using Engine.Models;
+using Engine.Factories;
 
 namespace Engine.ViewModels
 {
@@ -6,6 +7,8 @@ namespace Engine.ViewModels
     {
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation { get; set; }
+
+        public World CurrentWorld { get; set; }
         public GameSession()
         {
             CurrentPlayer = new Player()
@@ -18,15 +21,10 @@ namespace Engine.ViewModels
                 Level = 1
             };
 
-            CurrentLocation = new Location()
-            {
-                Name = "Basement Realm",
-                XCoordinate = 0,
-                YCoordinate = 0,
-                Description  = "Dark moist seemingly endless basement",
-                BackgroundImageName = "/Engine;component/Images/Locations/basement.png"
+            WorldFactory factory = new WorldFactory();
+            CurrentWorld = factory.CreateWorld();
 
-            };
+            CurrentLocation = CurrentWorld.LocationAt(0, 0);
         }
     }
 }
