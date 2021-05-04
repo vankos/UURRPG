@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Engine.Models;
+﻿using Engine.Models;
 
 namespace Engine.Factories
 {
@@ -13,6 +8,8 @@ namespace Engine.Factories
         {
             World newWorld = new World();
             newWorld.AddLocation(0, 0, "Basement Realm", "Dark moist seemingly endless basement", "/Engine;component/Images/Locations/basement.png");
+            newWorld.AddLocation(0, -1, "School Realm", "Fast training courses's enterprise", "/Engine;component/Images/Locations/school.png");
+            newWorld.AddLocation(0, -2, "Hub Realm", "Busy Realm Hub", "/Engine;component/Images/Locations/hub.png");
             return newWorld;
         }
     }
