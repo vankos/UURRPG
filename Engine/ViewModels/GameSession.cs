@@ -56,8 +56,7 @@ namespace Engine.ViewModels
                 Level = 1
             };
 
-            WorldFactory factory = new WorldFactory();
-            CurrentWorld = factory.CreateWorld();
+            CurrentWorld =  WorldFactory.CreateWorld();
 
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
         }

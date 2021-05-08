@@ -2,9 +2,9 @@
 
 namespace Engine.Factories
 {
-    internal class WorldFactory
+    internal static class WorldFactory
     {
-        internal World CreateWorld()
+        internal static World CreateWorld()
         {
             World newWorld = new World();
             newWorld.AddLocation(0, 0, "Basement Realm", "Dark moist seemingly endless basement", "/Engine;component/Images/Locations/basement.png");
