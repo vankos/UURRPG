@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="BaseNotificationClass.cs" />
     <Compile Include="Factories\WorldFactory.cs" />
+    <Compile Include="Models\Items\Item.cs" />
+    <Compile Include="Models\Items\ItemFactory.cs" />
+    <Compile Include="Models\Items\Weapon.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\World.cs" />
