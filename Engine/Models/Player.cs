@@ -1,4 +1,7 @@
-﻿namespace Engine.Models
+﻿using Engine.Models.Items;
+using System.Collections.ObjectModel;
+
+namespace Engine.Models
 {
     public class Player : BaseNotificationClass
     {
@@ -62,6 +65,13 @@
                 _credits = value;
                 OnPropertyChanged(nameof(Credits));
             }
+        }
+
+        public ObservableCollection<Item> Inventory { get; set; }
+
+        public Player()
+        {
+            Inventory = new ObservableCollection<Item>();
         }
     }
 }
