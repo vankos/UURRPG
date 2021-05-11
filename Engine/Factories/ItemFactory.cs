@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Engine.Models.Items;
+using System.Collections.Generic;
 
-namespace Engine.Models.Items
+namespace Engine.Factories
 {
     public static class ItemFactory
     {
