@@ -1,4 +1,4 @@
-﻿using Engine.Models.Quest;
+﻿using Engine.Models.Quests;
 using System.Collections.Generic;
 
 namespace Engine.Factories

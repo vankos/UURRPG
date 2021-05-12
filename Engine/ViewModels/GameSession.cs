@@ -1,5 +1,8 @@
 ﻿using Engine.Models;
 using Engine.Factories;
+using System;
+using Engine.Models.Quests;
+using System.Linq;
 
 namespace Engine.ViewModels
 {
@@ -19,6 +22,8 @@ namespace Engine.ViewModels
                 OnPropertyChanged(nameof(HasLocationToEast));
                 OnPropertyChanged(nameof(HasLocationToWest));
                 OnPropertyChanged(nameof(HasLocationToSouth));
+
+                GetLocationQuests();
             }
         }
 
@@ -82,6 +87,15 @@ namespace Engine.ViewModels
         {
             if (HasLocationToSouth)
                 CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1);
+        }
+
+        private void GetLocationQuests()
+        {
+            foreach (Quest quest in CurrentLocation.AvailibleQuests)
+            {
+                if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.ID == quest.ID))
+                    CurrentPlayer.Quests.Add(new QuestStatus(quest));
+            }
         }
     }
 }

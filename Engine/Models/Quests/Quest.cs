@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Engine.Models.Quest
+namespace Engine.Models.Quests
 {
     public class Quest
     {

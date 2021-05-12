@@ -1,4 +1,4 @@
-﻿namespace Engine.Models.Quest
+﻿namespace Engine.Models.Quests
 {
     public struct ItemQuantity
     {

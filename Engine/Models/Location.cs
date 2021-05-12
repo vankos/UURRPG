@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Engine.Models.Quests;
 
 namespace Engine.Models
 {
@@ -13,5 +10,7 @@ namespace Engine.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string BackgroundImageName { get; set; }
+
+        public List<Quest> AvailibleQuests { get; set; } = new List<Quest>();
     }
 }

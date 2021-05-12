@@ -105,6 +105,12 @@
                 </DataGrid>  
             </TabItem>
             <TabItem Header="Journal">
+                <DataGrid ItemsSource="{Binding CurrentPlayer.Quests}" AutoGenerateColumns="False" HeadersVisibility="Column">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding PlayerQuest.Name}" Width="*"/>
+                        <DataGridTextColumn Header="Is Complete?" Binding="{Binding IsComplete}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
                 
             </TabItem>
         </TabControl>

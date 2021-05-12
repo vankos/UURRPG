@@ -1,4 +1,5 @@
 ﻿using Engine.Models.Items;
+using Engine.Models.Quests;
 using System.Collections.ObjectModel;
 
 namespace Engine.Models
@@ -69,9 +70,12 @@ namespace Engine.Models
 
         public ObservableCollection<Item> Inventory { get; set; }
 
+        public ObservableCollection<QuestStatus> Quests { get; set; }
+
         public Player()
         {
             Inventory = new ObservableCollection<Item>();
+            Quests = new ObservableCollection<QuestStatus>();
         }
     }
 }
