@@ -9,8 +9,8 @@ namespace Engine.Factories
         {
             new Weapon(1, "Pen", 5, 0, 1),
             new Weapon(2, "Ruler", 30, 0.5, 1),
-            new Item(3, "Snail's sneeze", 2),
-            new Item(4, "Slime", 3)
+            new Item(3, "Snail's sneeze", 5),
+            new Item(4, "Slime", 2)
         };
 
         public static Item CreateItem(int itemId)
