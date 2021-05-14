@@ -28,7 +28,7 @@ namespace Engine.Models
         public Monster(string name, string imageName, int maxDamage, int damage, int rewardExp, int rewardCredits)
         {
             Name = name;
-            ImageName = imageName;
+            ImageName = $"/Engine;component/Images/Monsters/{imageName}";
             MaxDamage = maxDamage;
             Damage = damage;
             RewardExp = rewardExp;
