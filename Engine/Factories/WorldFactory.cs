@@ -9,6 +9,7 @@ namespace Engine.Factories
             World newWorld = new World();
             newWorld.AddLocation(0, 0, "Basement Realm", "Dark moist seemingly endless basement", "/Engine;component/Images/Locations/basement.png");
             newWorld.LocationAt(0, 0).AvailibleQuests.Add(QuestFactory.GetQuestByID(1));
+            newWorld.LocationAt(0, 0).AddMonster(1, 100);
             newWorld.AddLocation(0, -1, "School Realm", "Fast training courses's enterprise", "/Engine;component/Images/Locations/school.png");
             newWorld.AddLocation(0, -2, "Hub Realm", "Busy Realm Hub", "/Engine;component/Images/Locations/hub.png");
             return newWorld;

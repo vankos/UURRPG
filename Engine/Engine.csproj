@@ -55,6 +55,7 @@
     <Compile Include="Models\Quests\Quest.cs" />
     <Compile Include="Models\Quests\QuestStatus.cs" />
     <Compile Include="Models\World.cs" />
+    <Compile Include="MonsterEncounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomNumberGenerator.cs" />
     <Compile Include="ViewModels\GameSession.cs" />

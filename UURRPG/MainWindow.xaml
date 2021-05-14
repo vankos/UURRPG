@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:Engine.ViewModels;assembly=Engine"
+        d:DataContext="{d:DesignInstance viewModel:GameSession}"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         Title="Unoriginal Ugly Rouglike RPG" Height="450" Width="800" WindowState="Maximized"
@@ -21,8 +23,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
+        
+        <!--Menu-->
         <Label Grid.Row="0" Grid.Column="0" Content="Menu" Background="DimGray" Grid.ColumnSpan="3"/>
+        <!--Player stats-->
         <Grid Grid.Row="1" Grid.Column="0"  Background="Black">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -51,11 +55,13 @@
             <Label Grid.Row="5" Grid.Column="0" Content="XP:" Foreground="White"/>
             <Label Grid.Row="5" Grid.Column="1" Content="{Binding CurrentPlayer.Experience }" Foreground="White"/>
         </Grid>
+        <!--Location and Monster info-->
         <Grid Grid.Row="1" Background="Black" Grid.ColumnSpan="3" Margin="256,2,8,223" Grid.RowSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <!--Location info-->
             <Border Grid.Column="1" BorderBrush="Gainsboro" BorderThickness="1">
                 <Grid Margin="3">
                     <Grid.RowDefinitions>
@@ -63,13 +69,31 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+                   
                     <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding CurrentLocation.Name}" Foreground="White"/>
                     <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding CurrentLocation.BackgroundImageName}"/>
                     <TextBlock Grid.Row="2" HorizontalAlignment="Center" Text="{Binding CurrentLocation.Description}" Foreground="White"/>
                 </Grid>
             </Border>
-            
+            <!--Monster info-->
+            <Border Grid.Column="0" BorderBrush="Gainsboro" BorderThickness="1">
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding CurrentMonster.Name}" Foreground="White"/>
+                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding CurrentMonster.ImageName}"/>
+                    <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}">
+                        <TextBlock Text="Damage: " Foreground="White" />
+                        <TextBlock Text="{Binding CurrentMonster.Damage}" Foreground="White"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
         </Grid>
+        <!--Move buttons-->
         <Grid Grid.Row="2" Grid.Column="1" Background="Black">
             <Grid.ColumnDefinitions> 
                 <ColumnDefinition Width="255"/>
@@ -95,6 +119,7 @@
             </Grid>
             
         </Grid>
+        <!--Inventory|Quests tabs-->
         <TabControl Grid.Row="2" Grid.Column="0" >
             <TabItem Header="Inventory">
                 <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory}" AutoGenerateColumns="False" HeadersVisibility="Column">
