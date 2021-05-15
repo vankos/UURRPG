@@ -3,6 +3,7 @@ using Engine.Factories;
 using System;
 using Engine.Models.Quests;
 using System.Linq;
+using Engine.EventArgs;
 
 namespace Engine.ViewModels
 {
@@ -10,6 +11,8 @@ namespace Engine.ViewModels
     {
         private Location _currentLocation;
         private Monster _currentMonster;
+
+        public event EventHandler<GameLogsEventArgs> OnMessageRaised;
 
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation
@@ -34,12 +37,15 @@ namespace Engine.ViewModels
         public Monster CurrentMonster
         {
             get { return _currentMonster; }
-            set 
-            
-            { 
+            set
+
+            {
                 _currentMonster = value;
                 OnPropertyChanged(nameof(CurrentMonster));
                 OnPropertyChanged(nameof(HasMonster));
+
+                if (CurrentMonster != null)
+                    RaiseMessage($"\nYou see a {CurrentMonster.Name}!");
             }
         }
 
@@ -78,7 +84,6 @@ namespace Engine.ViewModels
             };
 
             CurrentWorld =  WorldFactory.CreateWorld();
-
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
         }
 
@@ -115,5 +120,7 @@ namespace Engine.ViewModels
         }
 
         private void GetLocationMonster()=>  CurrentMonster= CurrentLocation.GetMonster();
+
+        private void RaiseMessage(string message) => OnMessageRaised?.Invoke(this, new GameLogsEventArgs(message));
     }
 }

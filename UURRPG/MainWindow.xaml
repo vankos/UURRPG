@@ -139,6 +139,16 @@
                 
             </TabItem>
         </TabControl>
-        <Label Grid.Row="2" Grid.Column="2" Content="Log" Background="Black" Foreground="White"/>
+        <!--Game log-->
+        <Border Grid.Row="2" Grid.Column="2"  BorderBrush="Gainsboro" BorderThickness="1">
+            <RichTextBox x:Name="GameLog" Background="Black" VerticalScrollBarVisibility="Auto">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>                    
+                </RichTextBox.Resources>
+            </RichTextBox>
+        </Border>
     </Grid>
 </Window>
