@@ -35,5 +35,7 @@ namespace UI
             GameLog.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
             GameLog.ScrollToEnd();
         }
+
+        private void OnClick_Attack(object sender, RoutedEventArgs e) => _gameSession.AttackEnemy();
     }
 }

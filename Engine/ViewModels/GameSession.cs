@@ -4,6 +4,7 @@ using System;
 using Engine.Models.Quests;
 using System.Linq;
 using Engine.EventArgs;
+using Engine.Models.Items;
 
 namespace Engine.ViewModels
 {
@@ -34,20 +35,22 @@ namespace Engine.ViewModels
 
         public World CurrentWorld { get; set; }
 
-        public Monster CurrentMonster
+        public Monster CurrentEnemy
         {
             get { return _currentMonster; }
             set
 
             {
                 _currentMonster = value;
-                OnPropertyChanged(nameof(CurrentMonster));
+                OnPropertyChanged(nameof(CurrentEnemy));
                 OnPropertyChanged(nameof(HasMonster));
 
-                if (CurrentMonster != null)
-                    RaiseMessage($"\nYou see a {CurrentMonster.Name}!");
+                if (CurrentEnemy != null)
+                    RaiseMessage($"\nYou see a {CurrentEnemy.Name}!");
             }
         }
+
+        public Weapon CurrentWeapon { get; set; }
 
         public bool HasLocationToNorth
         {
@@ -69,7 +72,7 @@ namespace Engine.ViewModels
             get => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null;
         }
 
-        public bool HasMonster => CurrentMonster != null;
+        public bool HasMonster => CurrentEnemy != null;
 
         public GameSession()
         {
@@ -77,11 +80,13 @@ namespace Engine.ViewModels
             {
                 Name = "John Doe",
                 CharacterClass = "Scientist",
-                HitPoints = 1,
+                Health = 1,
                 Credits = 100,
                 Experience = 0,
                 Level = 1
             };
+            if (CurrentPlayer.Weapons.Count==0)
+                CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));
 
             CurrentWorld =  WorldFactory.CreateWorld();
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
@@ -119,8 +124,55 @@ namespace Engine.ViewModels
             }
         }
 
-        private void GetLocationMonster()=>  CurrentMonster= CurrentLocation.GetMonster();
+        private void GetLocationMonster()=>  CurrentEnemy= CurrentLocation.GetMonster();
 
         private void RaiseMessage(string message) => OnMessageRaised?.Invoke(this, new GameLogsEventArgs(message));
+
+        public void AttackEnemy()
+        {
+            if (CurrentWeapon == null)
+            {
+                RaiseMessage("You must select a weapon!");
+                return;
+            }
+
+            int damageToEnemy = RandomNumberGenerator.GetRandNumberBetween(CurrentWeapon.MinDamage, CurrentWeapon.MaxDamage);
+            CurrentEnemy.Health -= damageToEnemy;
+            RaiseMessage($"You deal to {CurrentEnemy.Name} {damageToEnemy} hp damage");
+
+            if (CurrentEnemy.Health <= 0)
+            {
+                RaiseMessage($"{CurrentEnemy.Name} is dead");
+                CurrentPlayer.Experience += CurrentEnemy.RewardExp;
+                RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
+                CurrentPlayer.Credits += CurrentEnemy.RewardCredits;
+                RaiseMessage($"You get {CurrentEnemy.RewardCredits} credits");
+                foreach (ItemQuantity lootItem in CurrentEnemy.Inventory)
+                {
+                    for (int i = 0; i < lootItem.Quantity; i++)
+                    {
+                        Item item = ItemFactory.CreateItem(lootItem.ItemId);
+                        CurrentPlayer.AddItemToInventory(item);
+                    }
+                    RaiseMessage($"You get {lootItem.Quantity} x {ItemFactory.GetItemNameById(lootItem.ItemId)} from corpse");
+                }
+
+                GetLocationMonster();
+            }
+            else
+            {
+                int enemyDamage = RandomNumberGenerator.GetRandNumberBetween(CurrentEnemy.MinDamage, CurrentEnemy.MaxDamage);
+                CurrentPlayer.Health -= enemyDamage;
+                RaiseMessage($"{CurrentEnemy.Name} deal to you {enemyDamage} hp damage");
+
+                if (CurrentPlayer.Health <= 0)
+                {
+                    RaiseMessage("YOU DIED");
+                }
+
+                CurrentLocation = CurrentWorld.LocationAt(0, 0);
+                CurrentPlayer.Health = CurrentPlayer.Level;
+            }
+        }
     }
 }

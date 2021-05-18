@@ -46,8 +46,8 @@
             <Label Grid.Row="0" Grid.Column="1" Content="{Binding CurrentPlayer.Name }" Foreground="White"/>
             <Label Grid.Row="1" Grid.Column="0" Content="Class:" Foreground="White"/>
             <Label Grid.Row="1" Grid.Column="1" Content="{Binding CurrentPlayer.CharacterClass }" Foreground="White"/>
-            <Label Grid.Row="2" Grid.Column="0" Content="Hit Points:" Foreground="White"/>
-            <Label Grid.Row="2" Grid.Column="1" Content="{Binding CurrentPlayer.HitPoints }" Foreground="White"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Health:" Foreground="White"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="{Binding CurrentPlayer.Health }" Foreground="White"/>
             <Label Grid.Row="3" Grid.Column="0" Content="Credits:" Foreground="White"/>
             <Label Grid.Row="3" Grid.Column="1" Content="{Binding CurrentPlayer.Credits }" Foreground="White"/>
             <Label Grid.Row="4" Grid.Column="0" Content="Level:" Foreground="White"/>
@@ -83,42 +83,59 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding CurrentMonster.Name}" Foreground="White"/>
-                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding CurrentMonster.ImageName}"/>
+                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding CurrentEnemy.Name}" Foreground="White"/>
+                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding CurrentEnemy.ImageName}"/>
                     <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}">
-                        <TextBlock Text="Damage: " Foreground="White" />
-                        <TextBlock Text="{Binding CurrentMonster.Damage}" Foreground="White"/>
+                        <TextBlock Text="Health: " Foreground="White" />
+                        <TextBlock Text="{Binding CurrentEnemy.Health}" Foreground="White"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
         </Grid>
-        <!--Move buttons-->
-        <Grid Grid.Row="2" Grid.Column="1" Background="Black">
-            <Grid.ColumnDefinitions> 
-                <ColumnDefinition Width="255"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column ="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+        <!--Control buttons-->
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+            <!--Move control-->
+            <Grid  Background="Black">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="255"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Row="0" Grid.Column="1" Content="Go North"  Margin="10" Click="OnClickNorth" Visibility="{Binding HasLocationToNorth,Converter={StaticResource BooleanToVisibility}}"/>
-                <Button Grid.Row="1" Grid.Column="0" Content="Go West"  Margin="10" Click="OnClickWest" Visibility="{Binding HasLocationToWest,Converter={StaticResource BooleanToVisibility}}"/>
-                <Button Grid.Row="1" Grid.Column="2" Content="Go East"  Margin="10" Click="OnClickEast" Visibility="{Binding HasLocationToEast,Converter={StaticResource BooleanToVisibility}}"/>
-                <Button Grid.Row="2" Grid.Column="1" Content="Go South"  Margin="10" Click="OnClickSouth" Visibility="{Binding HasLocationToSouth,Converter={StaticResource BooleanToVisibility}}"/>
+                <Grid Grid.Column ="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Row="0" Grid.Column="1" Content="Go North"  Margin="10" Click="OnClickNorth" Visibility="{Binding HasLocationToNorth,Converter={StaticResource BooleanToVisibility}}"/>
+                    <Button Grid.Row="1" Grid.Column="0" Content="Go West"  Margin="10" Click="OnClickWest" Visibility="{Binding HasLocationToWest,Converter={StaticResource BooleanToVisibility}}"/>
+                    <Button Grid.Row="1" Grid.Column="2" Content="Go East"  Margin="10" Click="OnClickEast" Visibility="{Binding HasLocationToEast,Converter={StaticResource BooleanToVisibility}}"/>
+                    <Button Grid.Row="2" Grid.Column="1" Content="Go South"  Margin="10" Click="OnClickSouth" Visibility="{Binding HasLocationToSouth,Converter={StaticResource BooleanToVisibility}}"/>
+                </Grid>
             </Grid>
-            
-        </Grid>
+            <!--Fight control-->
+            <Grid Visibility="{Binding HasMonster,Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding CurrentPlayer.Weapons}" SelectedItem="{Binding CurrentWeapon }" DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                <Button Grid.Row="0" Grid.Column="2"  Content="Use" Click="OnClick_Attack"/>
+            </Grid>
+        </StackPanel>
         <!--Inventory|Quests tabs-->
         <TabControl Grid.Row="2" Grid.Column="0" >
             <TabItem Header="Inventory">

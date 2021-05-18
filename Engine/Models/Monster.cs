@@ -5,34 +5,39 @@ namespace Engine.Models
 {
     public class Monster:BaseNotificationClass
     {
-        private int _damage;
+        private int _health;
 
         public string Name { get; }
         public string ImageName { get; }
-        public int MaxDamage { get; }
-        public int Damage
+        public int MaxHealth { get; }
+        public int Health
         { get
-            { return _damage; }
-            private set
+            { return _health; }
+            set
             {
-                _damage = value;
-                OnPropertyChanged(nameof(Damage));
+                _health = value;
+                OnPropertyChanged(nameof(Health));
             }
         }
+
+        public int MinDamage { get; set; }
+        public int MaxDamage { get; set; }
 
         public int RewardExp { get; set; }
         public int RewardCredits { get; set; }
 
         public ObservableCollection<ItemQuantity> Inventory { get; set; }
 
-        public Monster(string name, string imageName, int maxDamage, int damage, int rewardExp, int rewardCredits)
+        public Monster(string name, string imageName, int maxHealth, int health, int rewardExp, int rewardCredits, int minDamage, int maxDamage)
         {
             Name = name;
             ImageName = $"/Engine;component/Images/Monsters/{imageName}";
-            MaxDamage = maxDamage;
-            Damage = damage;
+            MaxHealth = maxHealth;
+            Health = health;
             RewardExp = rewardExp;
             RewardCredits = rewardCredits;
+            MinDamage = minDamage;
+            MaxDamage = maxDamage;
 
             Inventory = new ObservableCollection<ItemQuantity>();
         }

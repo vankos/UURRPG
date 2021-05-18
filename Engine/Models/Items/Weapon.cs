@@ -2,10 +2,10 @@
 {
     public class Weapon : Item
     {
-        public double MinDamage { get; set; }
-        public double MaxDamage { get; set; }
+        public int MinDamage { get; set; }
+        public int MaxDamage { get; set; }
 
-        public Weapon(int id, string name, int price, double minDamage, double maxDamage) : base(id, name, price)
+        public Weapon(int id, string name, int price, int minDamage, int maxDamage) : base(id, name, price)
         {
             MinDamage = minDamage;
             MaxDamage = maxDamage;

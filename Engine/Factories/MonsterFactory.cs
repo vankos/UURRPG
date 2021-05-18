@@ -11,7 +11,7 @@ namespace Engine.Factories
             switch (monsterId)
             {
                 case 1:
-                    Monster snail = new Monster("Snail", "snail.png", 4, 4, 5, 1);
+                    Monster snail = new Monster("Snail", "snail.png", 4, 4, 5, 1,1,2);
                     AddLootItem(snail,3,25);
                     AddLootItem(snail,4,60);
                     return snail;
