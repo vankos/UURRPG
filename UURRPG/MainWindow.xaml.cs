@@ -18,7 +18,7 @@ namespace UI
             InitializeComponent();
             _gameSession = new GameSession();
             _gameSession.OnMessageRaised += OnMessageRaised;
-
+            _gameSession.StartTheGame();
             DataContext = _gameSession;
         }
 

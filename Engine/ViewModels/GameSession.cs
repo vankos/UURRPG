@@ -52,29 +52,17 @@ namespace Engine.ViewModels
 
         public Weapon CurrentWeapon { get; set; }
 
-        public bool HasLocationToNorth
-        {
-            get => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
-        }
+        public bool HasLocationToNorth => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
 
-        public bool HasLocationToEast
-        {
-            get => CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null;
-        }
+        public bool HasLocationToEast => CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null;
 
-        public bool HasLocationToWest
-        {
-            get => CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
-        }
+        public bool HasLocationToWest=> CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
 
-        public bool HasLocationToSouth
-        {
-            get => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null;
-        }
+        public bool HasLocationToSouth => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null;
 
         public bool HasMonster => CurrentEnemy != null;
 
-        public GameSession()
+        public void StartTheGame()
         {
             CurrentPlayer = new Player()
             {
@@ -85,10 +73,10 @@ namespace Engine.ViewModels
                 Experience = 0,
                 Level = 1
             };
-            if (CurrentPlayer.Weapons.Count==0)
+            if (CurrentPlayer.Weapons.Count == 0)
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));
 
-            CurrentWorld =  WorldFactory.CreateWorld();
+            CurrentWorld = WorldFactory.CreateWorld();
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
         }
 
