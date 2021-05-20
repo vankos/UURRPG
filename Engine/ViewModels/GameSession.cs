@@ -28,6 +28,7 @@ namespace Engine.ViewModels
                 OnPropertyChanged(nameof(HasLocationToWest));
                 OnPropertyChanged(nameof(HasLocationToSouth));
 
+                CompleteQuestsAtLocation();
                 GetLocationQuests();
                 GetLocationMonster();
             }
@@ -56,7 +57,7 @@ namespace Engine.ViewModels
 
         public bool HasLocationToEast => CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null;
 
-        public bool HasLocationToWest=> CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
+        public bool HasLocationToWest => CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
 
         public bool HasLocationToSouth => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null;
 
@@ -68,12 +69,12 @@ namespace Engine.ViewModels
             {
                 Name = "John Doe",
                 CharacterClass = "Scientist",
-                Health = 1,
+                Health = 10,
                 Credits = 100,
                 Experience = 0,
                 Level = 1
             };
-            if (CurrentPlayer.Weapons.Count == 0)
+            if (CurrentPlayer.GetWeapons().Count == 0)
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));
 
             CurrentWorld = WorldFactory.CreateWorld();
@@ -81,7 +82,8 @@ namespace Engine.ViewModels
         }
 
         public void MoveNorth()
-        {   if(HasLocationToNorth)
+        {
+            if (HasLocationToNorth)
                 CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1);
         }
 
@@ -108,11 +110,25 @@ namespace Engine.ViewModels
             foreach (Quest quest in CurrentLocation.AvailibleQuests)
             {
                 if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.ID == quest.ID))
+                {
                     CurrentPlayer.Quests.Add(new QuestStatus(quest));
+                    RaiseMessage($"\nYou get new Quest! '{quest.Name}':\n{quest.Description}");
+                    RaiseMessage("You need:");
+                    foreach (var item in quest.Requirements)
+                        RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                    RaiseMessage($"Reward is {quest.RewardCredits} credits and {quest.RewardExperience} exp");
+
+                    if (quest.RewardItems != null)
+                    {
+                        RaiseMessage("Also you will get:");
+                        foreach (var item in quest.RewardItems)
+                            RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                    }
+                }
             }
         }
 
-        private void GetLocationMonster()=>  CurrentEnemy= CurrentLocation.GetMonster();
+        private void GetLocationMonster() => CurrentEnemy = CurrentLocation.GetMonster();
 
         private void RaiseMessage(string message) => OnMessageRaised?.Invoke(this, new GameLogsEventArgs(message));
 
@@ -126,7 +142,7 @@ namespace Engine.ViewModels
 
             int damageToEnemy = RandomNumberGenerator.GetRandNumberBetween(CurrentWeapon.MinDamage, CurrentWeapon.MaxDamage);
             CurrentEnemy.Health -= damageToEnemy;
-            RaiseMessage($"You deal to {CurrentEnemy.Name} {damageToEnemy} hp damage");
+            RaiseMessage($"\nYou deal to {CurrentEnemy.Name} {damageToEnemy} hp damage");
 
             if (CurrentEnemy.Health <= 0)
             {
@@ -144,7 +160,7 @@ namespace Engine.ViewModels
                     }
                     RaiseMessage($"You get {lootItem.Quantity} x {ItemFactory.GetItemNameById(lootItem.ItemId)} from corpse");
                 }
-
+                CompleteQuestsAtLocation();
                 GetLocationMonster();
             }
             else
@@ -156,10 +172,42 @@ namespace Engine.ViewModels
                 if (CurrentPlayer.Health <= 0)
                 {
                     RaiseMessage("YOU DIED");
+                    CurrentLocation = CurrentWorld.LocationAt(0, 0);
+                    CurrentPlayer.Health = CurrentPlayer.Level * 10;
                 }
+            }
+        }
 
-                CurrentLocation = CurrentWorld.LocationAt(0, 0);
-                CurrentPlayer.Health = CurrentPlayer.Level;
+        private void CompleteQuestsAtLocation()
+        {
+            foreach (var quest in CurrentLocation.AvailibleQuests)
+            {
+                QuestStatus questToComplete = CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.ID == quest.ID && !q.IsComplete);
+                if (questToComplete != null && CurrentPlayer.HasAllThisItems(quest.Requirements))
+                {
+                    foreach (ItemQuantity iq in quest.Requirements)
+                    {
+                        for (int i = 0; i < iq.Quantity; i++)
+                        {
+                            CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.Inventory.First(it => it.Id == iq.ItemId));
+                        }
+                    }
+                    RaiseMessage($"\n You completed '{quest.Name}' quest!");
+
+                    CurrentPlayer.Experience += quest.RewardExperience;
+                    CurrentPlayer.Credits += quest.RewardCredits;
+                    RaiseMessage($"You got {quest.RewardCredits} credits and {quest.RewardExperience} exp");
+                    if (quest.RewardItems != null)
+                    {
+                        RaiseMessage("Also you  got:");
+                        foreach (var item in quest.RewardItems)
+                        {
+                            CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(item.ItemId));
+                            RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                        }
+                    }
+                    questToComplete.IsComplete = true;
+                }
             }
         }
     }

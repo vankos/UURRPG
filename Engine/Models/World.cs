@@ -14,7 +14,7 @@ namespace Engine.Models
         {
             Location location = new Location();
             location.XCoordinate = xCoordinate;
-            location.YCoordinate= yCoordinate;
+            location.YCoordinate = yCoordinate;
             location.Name = name;
             location.Description = description;
             location.BackgroundImageName = $"/Engine;component/Images/Locations/{imageName}";
@@ -22,7 +22,7 @@ namespace Engine.Models
             _locations.Add(location);
         }
 
-        public Location LocationAt(int x, int y)=> _locations.Find((l) => (l.XCoordinate == x && l.YCoordinate == y));
-        
+        public Location LocationAt(int x, int y) => _locations.Find((l) => (l.XCoordinate == x && l.YCoordinate == y));
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Engine.Models.Items
 {
-    public class Item:ICloneable
+    public class Item : ICloneable
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,6 +16,6 @@ namespace Engine.Models.Items
             Price = price;
         }
 
-        public object Clone()=> new Item(Id, Name, Price);
+        public object Clone() => new Item(Id, Name, Price);
     }
 }

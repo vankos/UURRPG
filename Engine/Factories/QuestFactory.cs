@@ -15,7 +15,7 @@ namespace Engine.Factories
             itemsToComplete.Add(new ItemQuantity(3, 5));
             rewardItems.Add(new ItemQuantity(2, 1));
 
-            _quests.Add(new Quest(1,"Sneeze collector", "Poke snails around with your Pen and collect their sneeze ", itemsToComplete, 10, 5));
+            _quests.Add(new Quest(1, "Sneeze collector", "Poke snails around with your Pen and collect their sneeze ", itemsToComplete, 10, 5));
         }
 
         internal static Quest GetQuestByID(int id) => _quests.Find(q => q.ID == id);

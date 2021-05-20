@@ -11,6 +11,6 @@
             MaxDamage = maxDamage;
         }
 
-        public new object Clone() => new Weapon(Id, Name, Price, MinDamage,MaxDamage);
+        public new object Clone() => new Weapon(Id, Name, Price, MinDamage, MaxDamage);
     }
 }

@@ -72,7 +72,7 @@ namespace Engine.Models
 
         public ObservableCollection<Item> Inventory { get; set; }
 
-        public List<Item> Weapons => Inventory.Where(i => i is Weapon).ToList();
+        public List<Item> GetWeapons() => Inventory.Where(i => i is Weapon).ToList();
 
         public ObservableCollection<QuestStatus> Quests { get; set; }
 
@@ -85,7 +85,23 @@ namespace Engine.Models
         public void AddItemToInventory(Item item)
         {
             Inventory.Add(item);
-            OnPropertyChanged(nameof(Weapons));
+            OnPropertyChanged(nameof(GetWeapons));
+        }
+
+        public void RemoveItemFromInventory(Item item)
+        {
+            Inventory.Remove(item);
+            OnPropertyChanged(nameof(Inventory));
+        }
+
+        public bool HasAllThisItems(List<ItemQuantity> items)
+        {
+            foreach (var item in items)
+            {
+                if (Inventory.Count(i => i.Id == item.ItemId) < item.Quantity)
+                    return false;
+            }
+            return true;
         }
     }
 }

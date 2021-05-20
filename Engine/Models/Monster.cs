@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Engine.Models
 {
-    public class Monster:BaseNotificationClass
+    public class Monster : BaseNotificationClass
     {
         private int _health;
 
@@ -11,7 +11,8 @@ namespace Engine.Models
         public string ImageName { get; }
         public int MaxHealth { get; }
         public int Health
-        { get
+        {
+            get
             { return _health; }
             set
             {
