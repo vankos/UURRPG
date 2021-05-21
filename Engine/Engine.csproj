@@ -46,6 +46,7 @@
     <Compile Include="Factories\ItemFactory.cs" />
     <Compile Include="Factories\MonsterFactory.cs" />
     <Compile Include="Factories\QuestFactory.cs" />
+    <Compile Include="Factories\TraderFactory.cs" />
     <Compile Include="Factories\WorldFactory.cs" />
     <Compile Include="Models\Items\Item.cs" />
     <Compile Include="Models\Items\Weapon.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Models\Quests\ItemQuantity.cs" />
     <Compile Include="Models\Quests\Quest.cs" />
     <Compile Include="Models\Quests\QuestStatus.cs" />
+    <Compile Include="Models\Trader.cs" />
     <Compile Include="Models\World.cs" />
     <Compile Include="MonsterEncounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

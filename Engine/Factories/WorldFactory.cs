@@ -12,6 +12,7 @@ namespace Engine.Factories
             newWorld.LocationAt(0, 0).AddMonster(1, 100);
             newWorld.AddLocation(0, -1, "School Realm", "Fast training courses's enterprise", "school.png");
             newWorld.AddLocation(0, -2, "Hub Realm", "Busy Realm Hub", "hub.png");
+            newWorld.LocationAt(0, -2).LocalTrader = TraderFactory.GetTraderByName("Broker");
             return newWorld;
         }
     }

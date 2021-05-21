@@ -17,6 +17,8 @@ namespace Engine.Models
 
         public List<MonsterEncounter> PossibleMonsters { get; set; } = new List<MonsterEncounter>();
 
+        public Trader LocalTrader { get; set; }
+
         public void AddMonster(int monsterId, int chanceOfEncountering)
         {
             if (PossibleMonsters.Exists(m => m.MonsterID == monsterId))
@@ -27,7 +29,7 @@ namespace Engine.Models
 
         public Monster GetMonster()
         {
-            if (!PossibleMonsters.Any())
+            if (PossibleMonsters.Count == 0)
                 return null;
 
             int totalChances = PossibleMonsters.Sum(m => m.ChanceofEncountering);
@@ -40,7 +42,7 @@ namespace Engine.Models
                     return MonsterFactory.GetMonster(monster.MonsterID);
             }
 
-            return MonsterFactory.GetMonster(PossibleMonsters.First().MonsterID);
+            return MonsterFactory.GetMonster(PossibleMonsters[0].MonsterID);
         }
     }
 }

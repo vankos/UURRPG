@@ -23,6 +23,5 @@ namespace Engine.Models
         }
 
         public Location LocationAt(int x, int y) => _locations.Find((l) => (l.XCoordinate == x && l.YCoordinate == y));
-
     }
 }
