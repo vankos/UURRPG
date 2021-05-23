@@ -72,7 +72,9 @@ namespace Engine.Models
 
         public ObservableCollection<Item> Inventory { get; set; }
 
-        public List<Item> GetWeapons() => Inventory.Where(i => i is Weapon).ToList();
+#pragma warning disable S2365 // Properties should not make collection or array copies
+        public List<Item> Weapons => Inventory.Where(i => i is Weapon).ToList();
+#pragma warning restore S2365 // Properties should not make collection or array copies
 
         public ObservableCollection<QuestStatus> Quests { get; set; }
 
@@ -85,7 +87,7 @@ namespace Engine.Models
         public void AddItemToInventory(Item item)
         {
             Inventory.Add(item);
-            OnPropertyChanged(nameof(GetWeapons));
+            OnPropertyChanged(nameof(Weapons));
         }
 
         public void RemoveItemFromInventory(Item item)

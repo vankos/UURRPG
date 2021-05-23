@@ -89,7 +89,7 @@ namespace Engine.ViewModels
                 Experience = 0,
                 Level = 1
             };
-            if (CurrentPlayer.GetWeapons().Count == 0)
+            if (CurrentPlayer.Weapons.Count == 0)
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));
 
             CurrentWorld = WorldFactory.CreateWorld();

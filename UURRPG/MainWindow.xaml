@@ -118,7 +118,7 @@
                     <Button Grid.Row="1" Grid.Column="0" Content="Go West"  Margin="10" Click="OnClickWest" Visibility="{Binding HasLocationToWest,Converter={StaticResource BooleanToVisibility}}"/>
                     <Button Grid.Row="1" Grid.Column="2" Content="Go East"  Margin="10" Click="OnClickEast" Visibility="{Binding HasLocationToEast,Converter={StaticResource BooleanToVisibility}}"/>
                     <Button Grid.Row="2" Grid.Column="1" Content="Go South" Margin="10" Click="OnClickSouth" Visibility="{Binding HasLocationToSouth,Converter={StaticResource BooleanToVisibility}}"/>
-                    <Button Grid.Row="1" Grid.Column="1" Content="Trade"    Margin="10"  Visibility="{Binding HasTrader ,Converter={StaticResource BooleanToVisibility}}"/>
+                    <Button Grid.Row="1" Grid.Column="1" Content="Trade"    Margin="10" Click="OnClick_DisplayTradeMenu" Visibility="{Binding HasTrader ,Converter={StaticResource BooleanToVisibility}}"/>
                 </Grid>
             </Grid>
             <!--Fight control-->

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Documents;
 using Engine.EventArgs;
 using Engine.ViewModels;
+using UURRPG;
 
 namespace UI
 {
@@ -37,5 +38,16 @@ namespace UI
         }
 
         private void OnClick_Attack(object sender, RoutedEventArgs e) => _gameSession.AttackEnemy();
+
+        private void OnClick_DisplayTradeMenu(object sender, RoutedEventArgs e)
+        {
+            TradeMenu tradeMenu = new TradeMenu()
+            {
+                Owner = this,
+                DataContext = _gameSession
+            };
+
+            tradeMenu.ShowDialog();
+        }
     }
 }
