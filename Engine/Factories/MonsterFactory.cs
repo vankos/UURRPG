@@ -23,7 +23,7 @@ namespace Engine.Factories
         private static void AddLootItem(Monster monster, int itemId, int dropChance)
         {
             if (RandomNumberGenerator.GetRandNumberBetween(1, 100) <= dropChance)
-                monster.Inventory.Add(new ItemQuantity(itemId, 1));
+                monster.AddItemToInventory(ItemFactory.CreateItem(itemId));
         }
     }
 }

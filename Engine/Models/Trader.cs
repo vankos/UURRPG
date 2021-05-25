@@ -4,18 +4,9 @@ using System.Collections.ObjectModel;
 
 namespace Engine.Models
 {
-    public class Trader : BaseNotificationClass
+    public class Trader : LivingEntity
     {
-        public string Name { get; set; }
-        public ObservableCollection<Item> Inventory { get; set; }
-        public Trader(string name)
-        {
-            Name = name;
-            Inventory = new ObservableCollection<Item>();
-        }
-
-        public void AddItemToInventory(Item item) => Inventory.Add(item);
-        public void RemoveItemFromInventory(Item item) => Inventory.Remove(item);
+        public Trader(string name)=> Name = name;
 
         public override int GetHashCode()
         {

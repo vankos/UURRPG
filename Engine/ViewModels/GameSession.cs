@@ -85,6 +85,7 @@ namespace Engine.ViewModels
                 Name = "John Doe",
                 CharacterClass = "Scientist",
                 Health = 10,
+                MaxHealth=10,
                 Credits = 100,
                 Experience = 0,
                 Level = 1
@@ -164,16 +165,12 @@ namespace Engine.ViewModels
                 RaiseMessage($"{CurrentEnemy.Name} is dead");
                 CurrentPlayer.Experience += CurrentEnemy.RewardExp;
                 RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
-                CurrentPlayer.Credits += CurrentEnemy.RewardCredits;
-                RaiseMessage($"You get {CurrentEnemy.RewardCredits} credits");
-                foreach (ItemQuantity lootItem in CurrentEnemy.Inventory)
+                CurrentPlayer.Credits += CurrentEnemy.Credits;
+                RaiseMessage($"You get {CurrentEnemy.Credits} credits");
+                foreach (Item lootItem in CurrentEnemy.Inventory)
                 {
-                    for (int i = 0; i < lootItem.Quantity; i++)
-                    {
-                        Item item = ItemFactory.CreateItem(lootItem.ItemId);
-                        CurrentPlayer.AddItemToInventory(item);
-                    }
-                    RaiseMessage($"You get {lootItem.Quantity} x {ItemFactory.GetItemNameById(lootItem.ItemId)} from corpse");
+                    CurrentPlayer.AddItemToInventory(lootItem);
+                    RaiseMessage($"You get {lootItem.Name} from corpse");
                 }
                 CompleteQuestsAtLocation();
                 GetLocationMonster();
