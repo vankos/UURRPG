@@ -26,11 +26,12 @@
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding CurrentTrader.Name }"/>
         <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Content="Your inventory"/>
         <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Content="Tradee's Inventory"/>
-        <DataGrid Grid.Row="2" Grid.Column="0" Margin="10" ItemsSource="{Binding CurrentPlayer.Inventory}" AutoGenerateColumns="False" HeadersVisibility="Column" 
+        <DataGrid Grid.Row="2" Grid.Column="0" Margin="10" ItemsSource="{Binding CurrentPlayer.GroupedInventory}" AutoGenerateColumns="False" HeadersVisibility="Column" 
                   CanUserAddRows="False" CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Item name" IsReadOnly="True" Width="*" Binding="{Binding Path=Name}"/>
-                <DataGridTextColumn Header="Price" IsReadOnly="True" Width="Auto" Binding="{Binding Path=Price}"/>
+                <DataGridTextColumn Header="Item name" IsReadOnly="True" Width="*" Binding="{Binding Path=Item.Name}"/>
+                <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="Auto" Binding="{Binding Path=Quantity}"/>
+                <DataGridTextColumn Header="Price" IsReadOnly="True" Width="Auto" Binding="{Binding Path=Item.Price}"/>
                 <DataGridTemplateColumn MinWidth="75">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -40,12 +41,13 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-       
-        <DataGrid Grid.Row="2" Grid.Column="1" Margin="10" ItemsSource="{Binding CurrentTrader.Inventory}" AutoGenerateColumns="False" HeadersVisibility="Column" 
+
+        <DataGrid Grid.Row="2" Grid.Column="1" Margin="10" ItemsSource="{Binding CurrentTrader.GroupedInventory}" AutoGenerateColumns="False" HeadersVisibility="Column" 
                   CanUserAddRows="False" CanUserDeleteRows="False" VerticalScrollBarVisibility="Auto">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Item name" IsReadOnly="True" Width="*" Binding="{Binding Path=Name}"/>
-                <DataGridTextColumn Header="Price" IsReadOnly="True" Width="Auto" Binding="{Binding Path=Price}"/>
+                <DataGridTextColumn Header="Item name" IsReadOnly="True" Width="*" Binding="{Binding Path=Item.Name}"/>
+                <DataGridTextColumn Header="Quantity" IsReadOnly="True" Width="Auto" Binding="{Binding Path=Quantity}"/>
+                <DataGridTextColumn Header="Price" IsReadOnly="True" Width="Auto" Binding="{Binding Path=Item.Price}"/>
                 <DataGridTemplateColumn MinWidth="75">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

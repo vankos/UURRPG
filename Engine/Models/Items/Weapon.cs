@@ -5,7 +5,7 @@
         public int MinDamage { get; set; }
         public int MaxDamage { get; set; }
 
-        public Weapon(int id, string name, int price, int minDamage, int maxDamage) : base(id, name, price)
+        public Weapon(int id, string name, int price, int minDamage, int maxDamage) : base(id, name, price, true)
         {
             MinDamage = minDamage;
             MaxDamage = maxDamage;

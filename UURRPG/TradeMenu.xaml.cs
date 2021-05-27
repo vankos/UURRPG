@@ -1,18 +1,6 @@
 ﻿using Engine.Models.Items;
 using Engine.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace UURRPG
 {
@@ -29,23 +17,23 @@ namespace UURRPG
 
         private void OnClick_Sell(object sender, RoutedEventArgs e)
         {
-            if (((FrameworkElement)sender).DataContext is Item item)
+            if (((FrameworkElement)sender).DataContext is GroupedInventoryItem itemGroup)
             {
-                Session.CurrentPlayer.Credits += item.Price;
-                Session.CurrentTrader.AddItemToInventory(item);
-                Session.CurrentPlayer.RemoveItemFromInventory(item);
+                Session.CurrentPlayer.Credits += itemGroup.Item.Price;
+                Session.CurrentTrader.AddItemToInventory(itemGroup.Item);
+                Session.CurrentPlayer.RemoveItemFromInventory(itemGroup.Item);
             }
         }
 
         private void OnClick_Buy(object sender, RoutedEventArgs e)
         {
-            if (((FrameworkElement)sender).DataContext is Item item)
+            if (((FrameworkElement)sender).DataContext is GroupedInventoryItem itemGroup)
             {
-                if (Session.CurrentPlayer.Credits >= item.Price)
+                if (Session.CurrentPlayer.Credits >= itemGroup.Item.Price)
                 {
-                    Session.CurrentPlayer.Credits -= item.Price;
-                    Session.CurrentPlayer.AddItemToInventory(item);
-                    Session.CurrentTrader.RemoveItemFromInventory(item);
+                    Session.CurrentPlayer.Credits -= itemGroup.Item.Price;
+                    Session.CurrentPlayer.AddItemToInventory(itemGroup.Item);
+                    Session.CurrentTrader.RemoveItemFromInventory(itemGroup.Item);
                 }
                 else
                 {

@@ -48,6 +48,7 @@
     <Compile Include="Factories\QuestFactory.cs" />
     <Compile Include="Factories\TraderFactory.cs" />
     <Compile Include="Factories\WorldFactory.cs" />
+    <Compile Include="Models\Items\GroupedInventoryItem.cs" />
     <Compile Include="Models\Items\Item.cs" />
     <Compile Include="Models\Items\Weapon.cs" />
     <Compile Include="Models\LivingEntity.cs" />
