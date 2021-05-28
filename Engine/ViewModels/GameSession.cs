@@ -11,12 +11,27 @@ namespace Engine.ViewModels
     public class GameSession : BaseNotificationClass
     {
         private Location _currentLocation;
-        private Monster _currentMonster;
+        private Monster _currentEnemy;
         private Trader _currentTrader;
+        private Player _currentPlayer;
 
         public event EventHandler<GameLogsEventArgs> OnMessageRaised;
 
-        public Player CurrentPlayer { get; set; }
+        public Player CurrentPlayer
+        {
+            get { return _currentPlayer; }
+            set
+            {
+                if (_currentPlayer != null)
+                    _currentPlayer.OnKilled -= OnCurrentPlayerKilled;
+
+                _currentPlayer = value;
+
+                if (_currentPlayer != null)
+                    _currentPlayer.OnKilled += OnCurrentPlayerKilled;
+            }
+        }
+
         public Location CurrentLocation
         {
             get { return _currentLocation; }
@@ -40,16 +55,22 @@ namespace Engine.ViewModels
 
         public Monster CurrentEnemy
         {
-            get { return _currentMonster; }
+            get { return _currentEnemy; }
             set
-
             {
-                _currentMonster = value;
+                if (_currentEnemy != null)
+                    _currentEnemy.OnKilled -= OnCurrentEnemyKilled;
+
+                _currentEnemy = value;
+
+                if (_currentEnemy != null)
+                {
+                    _currentEnemy.OnKilled += OnCurrentEnemyKilled;
+                    RaiseMessage($"\nYou see a {CurrentEnemy.Name}!");
+                }
+
                 OnPropertyChanged(nameof(CurrentEnemy));
                 OnPropertyChanged(nameof(HasMonster));
-
-                if (CurrentEnemy != null)
-                    RaiseMessage($"\nYou see a {CurrentEnemy.Name}!");
             }
         }
 
@@ -80,14 +101,8 @@ namespace Engine.ViewModels
 
         public void StartTheGame()
         {
-            CurrentPlayer = new Player()
+            CurrentPlayer = new Player("John Doe", "Scientist",0,10,10,100)
             {
-                Name = "John Doe",
-                CharacterClass = "Scientist",
-                Health = 10,
-                MaxHealth=10,
-                Credits = 100,
-                Experience = 0,
                 Level = 1
             };
             if (CurrentPlayer.Weapons.Count == 0)
@@ -157,36 +172,18 @@ namespace Engine.ViewModels
             }
 
             int damageToEnemy = RandomNumberGenerator.GetRandNumberBetween(CurrentWeapon.MinDamage, CurrentWeapon.MaxDamage);
-            CurrentEnemy.Health -= damageToEnemy;
+            CurrentEnemy.TakeDamage(damageToEnemy);
             RaiseMessage($"\nYou deal to {CurrentEnemy.Name} {damageToEnemy} hp damage");
 
-            if (CurrentEnemy.Health <= 0)
+            if (CurrentEnemy.IsDead)
             {
-                RaiseMessage($"{CurrentEnemy.Name} is dead");
-                CurrentPlayer.Experience += CurrentEnemy.RewardExp;
-                RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
-                CurrentPlayer.Credits += CurrentEnemy.Credits;
-                RaiseMessage($"You get {CurrentEnemy.Credits} credits");
-                foreach (Item lootItem in CurrentEnemy.Inventory)
-                {
-                    CurrentPlayer.AddItemToInventory(lootItem);
-                    RaiseMessage($"You get {lootItem.Name} from corpse");
-                }
-                CompleteQuestsAtLocation();
                 GetLocationMonster();
             }
             else
             {
                 int enemyDamage = RandomNumberGenerator.GetRandNumberBetween(CurrentEnemy.MinDamage, CurrentEnemy.MaxDamage);
-                CurrentPlayer.Health -= enemyDamage;
                 RaiseMessage($"{CurrentEnemy.Name} deal to you {enemyDamage} hp damage");
-
-                if (CurrentPlayer.Health <= 0)
-                {
-                    RaiseMessage("YOU DIED");
-                    CurrentLocation = CurrentWorld.LocationAt(0, 0);
-                    CurrentPlayer.Health = CurrentPlayer.Level * 10;
-                }
+                CurrentPlayer.TakeDamage(enemyDamage);
             }
         }
 
@@ -207,7 +204,7 @@ namespace Engine.ViewModels
                     RaiseMessage($"\n You completed '{quest.Name}' quest!");
 
                     CurrentPlayer.Experience += quest.RewardExperience;
-                    CurrentPlayer.Credits += quest.RewardCredits;
+                    CurrentPlayer.ReciveCredits( quest.RewardCredits);
                     RaiseMessage($"You got {quest.RewardCredits} credits and {quest.RewardExperience} exp");
                     if (quest.RewardItems != null)
                     {
@@ -221,6 +218,28 @@ namespace Engine.ViewModels
                     questToComplete.IsComplete = true;
                 }
             }
+        }
+
+        private void OnCurrentPlayerKilled(object sender, System.EventArgs e)
+        {
+            RaiseMessage("YOU DIED");
+            CurrentLocation = CurrentWorld.LocationAt(0, 0);
+            CurrentPlayer.FullHeal();
+        }
+
+        private void OnCurrentEnemyKilled(object sender, System.EventArgs e)
+        {
+            RaiseMessage($"{CurrentEnemy.Name} is dead");
+            CurrentPlayer.Experience += CurrentEnemy.RewardExp;
+            RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
+            CurrentPlayer.ReciveCredits(CurrentEnemy.Credits);
+            RaiseMessage($"You get {CurrentEnemy.Credits} credits");
+            foreach (Item lootItem in CurrentEnemy.Inventory)
+            {
+                CurrentPlayer.AddItemToInventory(lootItem);
+                RaiseMessage($"You get {lootItem.Name} from corpse");
+            }
+            CompleteQuestsAtLocation();
         }
     }
 }

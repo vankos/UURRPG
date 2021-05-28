@@ -19,7 +19,7 @@ namespace UURRPG
         {
             if (((FrameworkElement)sender).DataContext is GroupedInventoryItem itemGroup)
             {
-                Session.CurrentPlayer.Credits += itemGroup.Item.Price;
+                Session.CurrentPlayer.ReciveCredits(itemGroup.Item.Price);
                 Session.CurrentTrader.AddItemToInventory(itemGroup.Item);
                 Session.CurrentPlayer.RemoveItemFromInventory(itemGroup.Item);
             }
@@ -31,7 +31,7 @@ namespace UURRPG
             {
                 if (Session.CurrentPlayer.Credits >= itemGroup.Item.Price)
                 {
-                    Session.CurrentPlayer.Credits -= itemGroup.Item.Price;
+                    Session.CurrentPlayer.SpendCredits(itemGroup.Item.Price);
                     Session.CurrentPlayer.AddItemToInventory(itemGroup.Item);
                     Session.CurrentTrader.RemoveItemFromInventory(itemGroup.Item);
                 }

@@ -9,14 +9,11 @@
 
         public int RewardExp { get; set; }
 
-        public Monster(string name, string imageName, int maxHealth, int health, int rewardExp, int rewardCredits, int minDamage, int maxDamage)
+        public Monster(string name, string imageName, int maxHealth, int health, int rewardExp, int rewardCredits, int minDamage, int maxDamage):
+            base(name, maxHealth, health, rewardCredits)
         {
-            Name = name;
             ImageName = $"/Engine;component/Images/Monsters/{imageName}";
-            MaxHealth = maxHealth;
-            Health = health;
             RewardExp = rewardExp;
-            Credits = rewardCredits;
             MinDamage = minDamage;
             MaxDamage = maxDamage;
         }

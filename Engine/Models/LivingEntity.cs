@@ -1,4 +1,5 @@
 ﻿using Engine.Models.Items;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Engine.Models
         public string Name
         {
             get { return _name; }
-            set
+            private set
             {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
@@ -25,7 +26,7 @@ namespace Engine.Models
         public int Health
         {
             get { return _health; }
-            set
+            private set
             {
                 _health = value;
                 OnPropertyChanged(nameof(Health));
@@ -35,7 +36,7 @@ namespace Engine.Models
         public int MaxHealth
         {
             get { return _maxHealth; }
-            set
+            private set
             {
                 _maxHealth = value;
                 OnPropertyChanged(nameof(MaxHealth));
@@ -45,7 +46,7 @@ namespace Engine.Models
         public int Credits
         {
             get { return _credits; }
-            set
+            private set
             {
                 _credits = value;
                 OnPropertyChanged(nameof(Credits));
@@ -60,10 +61,19 @@ namespace Engine.Models
         public List<Item> Weapons => Inventory.Where(i => i is Weapon).ToList();
 #pragma warning restore S2365 // Properties should not make collection or array copies
 
-        protected LivingEntity()
+        public bool IsDead => Health <= 0;
+
+        public event EventHandler OnKilled;
+
+        protected LivingEntity(string name, int maxHealth, int health, int credits)
         {
             Inventory = new ObservableCollection<Item>();
             GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
+
+            Name = name;
+            MaxHealth = maxHealth;
+            Health = health;
+            Credits = credits;
         }
 
         public void AddItemToInventory(Item item)
@@ -99,5 +109,35 @@ namespace Engine.Models
 
             OnPropertyChanged(nameof(Weapons));
         }
+
+        public void TakeDamage(int damage)
+        {
+            Health -= damage;
+            if (IsDead)
+            {
+                Health = 0;
+                RaiseOnKilledEvent();
+            }
+        }
+
+        public void Heal(int hp)
+        {
+            Health += hp;
+            if (Health > MaxHealth)
+                Health = MaxHealth;
+        }
+
+        public void FullHeal() => Health = MaxHealth;
+
+        public void ReciveCredits(int credits)=> Credits += credits;
+
+        public void SpendCredits(int credits)
+        {
+            if (credits > Credits)
+                throw new ArgumentOutOfRangeException($"{Name} has only {Credits} credits");
+            Credits -= credits;
+        }
+
+        private void RaiseOnKilledEvent()=> OnKilled?.Invoke(this, System.EventArgs.Empty);
     }
 }
