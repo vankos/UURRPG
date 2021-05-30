@@ -6,12 +6,13 @@ using System.Linq;
 
 namespace Engine.Models
 {
-    public abstract class LivingEntity:BaseNotificationClass
+    public abstract class LivingEntity : BaseNotificationClass
     {
         private string _name;
         private int _health;
         private int _maxHealth;
         private int _credits;
+        private int _level;
 
         public string Name
         {
@@ -36,7 +37,7 @@ namespace Engine.Models
         public int MaxHealth
         {
             get { return _maxHealth; }
-            private set
+            protected set
             {
                 _maxHealth = value;
                 OnPropertyChanged(nameof(MaxHealth));
@@ -53,6 +54,16 @@ namespace Engine.Models
             }
         }
 
+        public int Level
+        {
+            get { return _level; }
+            protected set
+            {
+                _level = value;
+                OnPropertyChanged(nameof(Level));
+            }
+        }
+
         public ObservableCollection<Item> Inventory { get; set; }
 
         public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; set; }
@@ -65,7 +76,7 @@ namespace Engine.Models
 
         public event EventHandler OnKilled;
 
-        protected LivingEntity(string name, int maxHealth, int health, int credits)
+        protected LivingEntity(string name, int maxHealth, int health, int credits, int level = 1)
         {
             Inventory = new ObservableCollection<Item>();
             GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
@@ -74,6 +85,7 @@ namespace Engine.Models
             MaxHealth = maxHealth;
             Health = health;
             Credits = credits;
+            Level = level;
         }
 
         public void AddItemToInventory(Item item)
@@ -131,7 +143,7 @@ namespace Engine.Models
 
         public void FullHeal() => Health = MaxHealth;
 
-        public void ReciveCredits(int credits)=> Credits += credits;
+        public void ReciveCredits(int credits) => Credits += credits;
 
         public void SpendCredits(int credits)
         {
@@ -140,6 +152,6 @@ namespace Engine.Models
             Credits -= credits;
         }
 
-        private void RaiseOnKilledEvent()=> OnKilled?.Invoke(this, System.EventArgs.Empty);
+        private void RaiseOnKilledEvent() => OnKilled?.Invoke(this, System.EventArgs.Empty);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Engine.Models.Items;
 using Engine.Models.Quests;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace Engine.Models
     {
         private string _characterClass;
         private int _experience;
-        private int _level;
 
         public string CharacterClass
         {
@@ -25,25 +25,19 @@ namespace Engine.Models
         public int Experience
         {
             get { return _experience; }
-            set
+            private set
             {
                 _experience = value;
                 OnPropertyChanged(nameof(Experience));
-            }
-        }
-        public int Level
-        {
-            get { return _level; }
-            set
-            {
-                _level = value;
-                OnPropertyChanged(nameof(Level));
+                CheckForLevelUp();
             }
         }
 
         public ObservableCollection<QuestStatus> Quests { get; set; }
 
-        public Player(string name, string charClass, int expirience, int maxHealth, int health, int credits):base(name, maxHealth, health, credits)
+        public event EventHandler OnLevelUp;
+
+        public Player(string name, string charClass, int expirience, int maxHealth, int health, int credits) : base(name, maxHealth, health, credits)
         {
             CharacterClass = charClass;
             Experience = expirience;
@@ -58,6 +52,20 @@ namespace Engine.Models
                     return false;
             }
             return true;
+        }
+
+        public void AddExp(int exp) => Experience += exp;
+
+        private void CheckForLevelUp()
+        {
+            int currentLvl = Level;
+            Level = (Experience / 100) + 1;
+            if (Level != currentLvl)
+            {
+                MaxHealth = Level * 10;
+                FullHeal();
+                OnLevelUp?.Invoke(this, System.EventArgs.Empty);
+            }
         }
     }
 }

@@ -23,12 +23,18 @@ namespace Engine.ViewModels
             set
             {
                 if (_currentPlayer != null)
+                {
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;
+                    CurrentPlayer.OnLevelUp -= OnPlayerLevelUp;
+                }
 
                 _currentPlayer = value;
 
                 if (_currentPlayer != null)
+                {
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;
+                    CurrentPlayer.OnLevelUp += OnPlayerLevelUp;
+                }
             }
         }
 
@@ -65,8 +71,8 @@ namespace Engine.ViewModels
 
                 if (_currentEnemy != null)
                 {
-                    _currentEnemy.OnKilled += OnCurrentEnemyKilled;
                     RaiseMessage($"\nYou see a {CurrentEnemy.Name}!");
+                    _currentEnemy.OnKilled += OnCurrentEnemyKilled;
                 }
 
                 OnPropertyChanged(nameof(CurrentEnemy));
@@ -101,10 +107,8 @@ namespace Engine.ViewModels
 
         public void StartTheGame()
         {
-            CurrentPlayer = new Player("John Doe", "Scientist",0,10,10,100)
-            {
-                Level = 1
-            };
+            CurrentPlayer = new Player("John Doe", "Scientist", 0, 10, 10, 100);
+
             if (CurrentPlayer.Weapons.Count == 0)
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));
 
@@ -142,8 +146,8 @@ namespace Engine.ViewModels
             {
                 if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.ID == quest.ID))
                 {
-                    CurrentPlayer.Quests.Add(new QuestStatus(quest));
                     RaiseMessage($"\nYou get new Quest! '{quest.Name}':\n{quest.Description}");
+                    CurrentPlayer.Quests.Add(new QuestStatus(quest));
                     RaiseMessage("You need:");
                     foreach (var item in quest.Requirements)
                         RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
@@ -172,8 +176,8 @@ namespace Engine.ViewModels
             }
 
             int damageToEnemy = RandomNumberGenerator.GetRandNumberBetween(CurrentWeapon.MinDamage, CurrentWeapon.MaxDamage);
-            CurrentEnemy.TakeDamage(damageToEnemy);
             RaiseMessage($"\nYou deal to {CurrentEnemy.Name} {damageToEnemy} hp damage");
+            CurrentEnemy.TakeDamage(damageToEnemy);
 
             if (CurrentEnemy.IsDead)
             {
@@ -202,19 +206,21 @@ namespace Engine.ViewModels
                         }
                     }
                     RaiseMessage($"\n You completed '{quest.Name}' quest!");
+                    RaiseMessage($"You got {quest.RewardCredits} credits");
+                    CurrentPlayer.ReciveCredits(quest.RewardCredits);
 
-                    CurrentPlayer.Experience += quest.RewardExperience;
-                    CurrentPlayer.ReciveCredits( quest.RewardCredits);
-                    RaiseMessage($"You got {quest.RewardCredits} credits and {quest.RewardExperience} exp");
                     if (quest.RewardItems != null)
                     {
                         RaiseMessage("Also you  got:");
                         foreach (var item in quest.RewardItems)
                         {
-                            CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(item.ItemId));
                             RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                            CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(item.ItemId));
                         }
                     }
+                    RaiseMessage($"You got {quest.RewardExperience} exp");
+                    CurrentPlayer.AddExp(quest.RewardExperience);
+
                     questToComplete.IsComplete = true;
                 }
             }
@@ -230,16 +236,18 @@ namespace Engine.ViewModels
         private void OnCurrentEnemyKilled(object sender, System.EventArgs e)
         {
             RaiseMessage($"{CurrentEnemy.Name} is dead");
-            CurrentPlayer.Experience += CurrentEnemy.RewardExp;
             RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
-            CurrentPlayer.ReciveCredits(CurrentEnemy.Credits);
             RaiseMessage($"You get {CurrentEnemy.Credits} credits");
+            CurrentPlayer.ReciveCredits(CurrentEnemy.Credits);
             foreach (Item lootItem in CurrentEnemy.Inventory)
             {
                 CurrentPlayer.AddItemToInventory(lootItem);
                 RaiseMessage($"You get {lootItem.Name} from corpse");
             }
+            CurrentPlayer.AddExp(CurrentEnemy.RewardExp);
             CompleteQuestsAtLocation();
         }
+
+        private void OnPlayerLevelUp(object sender, System.EventArgs e) => RaiseMessage($"\nYou got level {CurrentPlayer.Level}!");
     }
 }

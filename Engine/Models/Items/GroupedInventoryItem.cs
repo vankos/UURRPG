@@ -1,6 +1,6 @@
 ﻿namespace Engine.Models.Items
 {
-    public class GroupedInventoryItem:BaseNotificationClass
+    public class GroupedInventoryItem : BaseNotificationClass
     {
         private Item _item;
         private int _quantity;
