@@ -18,7 +18,7 @@ namespace Engine.Models
             set
             {
                 _characterClass = value;
-                OnPropertyChanged(nameof(CharacterClass));
+                OnPropertyChanged();
             }
         }
 
@@ -28,12 +28,12 @@ namespace Engine.Models
             private set
             {
                 _experience = value;
-                OnPropertyChanged(nameof(Experience));
+                OnPropertyChanged();
                 CheckForLevelUp();
             }
         }
 
-        public ObservableCollection<QuestStatus> Quests { get; set; }
+        public ObservableCollection<QuestStatus> Quests { get; }
 
         public event EventHandler OnLevelUp;
 

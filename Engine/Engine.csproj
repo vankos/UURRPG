@@ -53,7 +53,7 @@
     <Compile Include="Models\Items\Weapon.cs" />
     <Compile Include="Models\LivingEntity.cs" />
     <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\Monster.cs" />
+    <Compile Include="Models\Enemy.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Quests\ItemQuantity.cs" />
     <Compile Include="Models\Quests\Quest.cs" />

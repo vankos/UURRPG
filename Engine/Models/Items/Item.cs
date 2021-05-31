@@ -4,10 +4,10 @@ namespace Engine.Models.Items
 {
     public class Item : ICloneable
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Price { get; set; }
-        public bool IsUnique { get; set; }
+        public int Id { get; }
+        public string Name { get; }
+        public int Price { get; }
+        public bool IsUnique { get; }
 
         public Item(int id, string name, int price, bool isUnique = false)
         {

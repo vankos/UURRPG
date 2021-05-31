@@ -20,7 +20,7 @@ namespace Engine.Models
             private set
             {
                 _name = value;
-                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged();
             }
         }
 
@@ -30,7 +30,7 @@ namespace Engine.Models
             private set
             {
                 _health = value;
-                OnPropertyChanged(nameof(Health));
+                OnPropertyChanged();
             }
         }
 
@@ -40,7 +40,7 @@ namespace Engine.Models
             protected set
             {
                 _maxHealth = value;
-                OnPropertyChanged(nameof(MaxHealth));
+                OnPropertyChanged();
             }
         }
 
@@ -50,7 +50,7 @@ namespace Engine.Models
             private set
             {
                 _credits = value;
-                OnPropertyChanged(nameof(Credits));
+                OnPropertyChanged();
             }
         }
 
@@ -60,13 +60,13 @@ namespace Engine.Models
             protected set
             {
                 _level = value;
-                OnPropertyChanged(nameof(Level));
+                OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<Item> Inventory { get; set; }
+        public ObservableCollection<Item> Inventory { get; }
 
-        public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; set; }
+        public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; }
 
 #pragma warning disable S2365 // Properties should not make collection or array copies
         public List<Item> Weapons => Inventory.Where(i => i is Weapon).ToList();

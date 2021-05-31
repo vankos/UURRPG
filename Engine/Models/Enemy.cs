@@ -1,15 +1,15 @@
 ﻿namespace Engine.Models
 {
-    public class Monster : LivingEntity
+    public class Enemy : LivingEntity
     {
         public string ImageName { get; }
 
-        public int MinDamage { get; set; }
-        public int MaxDamage { get; set; }
+        public int MinDamage { get; }
+        public int MaxDamage { get; }
 
-        public int RewardExp { get; set; }
+        public int RewardExp { get; }
 
-        public Monster(string name, string imageName, int maxHealth, int health, int rewardExp, int rewardCredits, int minDamage, int maxDamage) :
+        public Enemy(string name, string imageName, int maxHealth, int health, int rewardExp, int rewardCredits, int minDamage, int maxDamage) :
             base(name, maxHealth, health, rewardCredits)
         {
             ImageName = $"/Engine;component/Images/Monsters/{imageName}";

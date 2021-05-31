@@ -11,7 +11,7 @@ namespace Engine.ViewModels
     public class GameSession : BaseNotificationClass
     {
         private Location _currentLocation;
-        private Monster _currentEnemy;
+        private Enemy _currentEnemy;
         private Trader _currentTrader;
         private Player _currentPlayer;
 
@@ -44,7 +44,7 @@ namespace Engine.ViewModels
             set
             {
                 _currentLocation = value;
-                OnPropertyChanged(nameof(CurrentLocation));
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(HasLocationToNorth));
                 OnPropertyChanged(nameof(HasLocationToEast));
                 OnPropertyChanged(nameof(HasLocationToWest));
@@ -59,7 +59,7 @@ namespace Engine.ViewModels
 
         public World CurrentWorld { get; set; }
 
-        public Monster CurrentEnemy
+        public Enemy CurrentEnemy
         {
             get { return _currentEnemy; }
             set
@@ -75,7 +75,7 @@ namespace Engine.ViewModels
                     _currentEnemy.OnKilled += OnCurrentEnemyKilled;
                 }
 
-                OnPropertyChanged(nameof(CurrentEnemy));
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(HasMonster));
             }
         }
@@ -88,7 +88,7 @@ namespace Engine.ViewModels
             set
             {
                 _currentTrader = value;
-                OnPropertyChanged(nameof(Trader));
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(HasTrader));
             }
         }
