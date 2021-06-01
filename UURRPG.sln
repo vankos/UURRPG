@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UURRPG\UI.csproj", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{BD2E8CFD-BF93-4EAC-AC9D-584A17DB02BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEngine", "TestEngine\TestEngine.csproj", "{C1400357-F657-43F5-9751-209B4BB28164}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BD2E8CFD-BF93-4EAC-AC9D-584A17DB02BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD2E8CFD-BF93-4EAC-AC9D-584A17DB02BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD2E8CFD-BF93-4EAC-AC9D-584A17DB02BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1400357-F657-43F5-9751-209B4BB28164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1400357-F657-43F5-9751-209B4BB28164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1400357-F657-43F5-9751-209B4BB28164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1400357-F657-43F5-9751-209B4BB28164}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
