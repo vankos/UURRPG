@@ -69,7 +69,7 @@ namespace Engine.Models
         public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; }
 
 #pragma warning disable S2365 // Properties should not make collection or array copies
-        public List<Item> Weapons => Inventory.Where(i => i is Weapon).ToList();
+        public List<Item> Weapons => Inventory.Where(i => i.Category == Item.ItemCategory.Weapon).ToList();
 #pragma warning restore S2365 // Properties should not make collection or array copies
 
         public bool IsDead => Health <= 0;

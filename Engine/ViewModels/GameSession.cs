@@ -80,7 +80,7 @@ namespace Engine.ViewModels
             }
         }
 
-        public Weapon CurrentWeapon { get; set; }
+        public Item CurrentWeapon { get; set; }
 
         public Trader CurrentTrader
         {
