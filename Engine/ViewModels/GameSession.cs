@@ -82,8 +82,6 @@ namespace Engine.ViewModels
             }
         }
 
-        public Item CurrentWeapon { get; set; }
-
         public Trader CurrentTrader
         {
             get { return _currentTrader; }
@@ -171,7 +169,7 @@ namespace Engine.ViewModels
 
         public void AttackEnemy()
         {
-            if (CurrentWeapon == null)
+            if (CurrentPlayer.CurrentWeapon == null)
             {
                 RaiseMessage("You must select a weapon!");
                 return;
