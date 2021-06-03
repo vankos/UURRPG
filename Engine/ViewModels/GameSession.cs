@@ -26,6 +26,7 @@ namespace Engine.ViewModels
                 {
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;
                     CurrentPlayer.OnLevelUp -= OnPlayerLevelUp;
+                    _currentPlayer.OnActionPerformed -= OnCurrentPlayerPerformedAction;
                 }
 
                 _currentPlayer = value;
@@ -34,6 +35,7 @@ namespace Engine.ViewModels
                 {
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;
                     CurrentPlayer.OnLevelUp += OnPlayerLevelUp;
+                    _currentPlayer.OnActionPerformed += OnCurrentPlayerPerformedAction;
                 }
             }
         }
@@ -175,9 +177,7 @@ namespace Engine.ViewModels
                 return;
             }
 
-            int damageToEnemy = RandomNumberGenerator.GetRandNumberBetween(CurrentWeapon.MinDamage, CurrentWeapon.MaxDamage);
-            RaiseMessage($"\nYou deal to {CurrentEnemy.Name} {damageToEnemy} hp damage");
-            CurrentEnemy.TakeDamage(damageToEnemy);
+            CurrentPlayer.AttackWithCurrentWeapon(CurrentEnemy);
 
             if (CurrentEnemy.IsDead)
             {
@@ -249,5 +249,7 @@ namespace Engine.ViewModels
         }
 
         private void OnPlayerLevelUp(object sender, System.EventArgs e) => RaiseMessage($"\nYou got level {CurrentPlayer.Level}!");
+
+        private void OnCurrentPlayerPerformedAction(object sender, string result) => RaiseMessage("Result");
     }
 }

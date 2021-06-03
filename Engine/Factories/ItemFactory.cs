@@ -15,12 +15,16 @@ namespace Engine.Factories
             BuildMiscellaneousItem(4, "Slime", 2);
         }
 
-        public static Item CreateItem(int itemId)=> _referenceItems.Find(i => i.Id == itemId).Clone() as Item;
+        public static Item CreateItem(int itemId) => _referenceItems.Find(i => i.Id == itemId).Clone() as Item;
 
-        private static void BuildMiscellaneousItem(int id, string name, int price)=> _referenceItems.Add(new Item(Item.ItemCategory.Miscellaneous, id, name, price));
+        private static void BuildMiscellaneousItem(int id, string name, int price) => _referenceItems.Add(new Item(Item.ItemCategory.Miscellaneous, id, name, price));
 
-        private static void BuildWeapon(int id, string name, int price, int minDamage, int maxDamage) =>
-            _referenceItems.Add(new Item(Item.ItemCategory.Weapon, id, name, price,true, minDamage,maxDamage));
+        private static void BuildWeapon(int id, string name, int price, int minDamage, int maxDamage)
+        {
+            Item newItem = (new Item(Item.ItemCategory.Weapon, id, name, price, true));
+            newItem.Attack = new Actions.AttackWithWeapon(newItem, minDamage, maxDamage);
+            _referenceItems.Add(newItem);
+        }
 
         public static string GetItemNameById(int itemId)
         {

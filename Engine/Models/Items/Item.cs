@@ -1,4 +1,5 @@
 ﻿using System;
+using Engine.Actions;
 
 namespace Engine.Models.Items
 {
@@ -15,20 +16,20 @@ namespace Engine.Models.Items
         public string Name { get; }
         public int Price { get; }
         public bool IsUnique { get; }
-        public int MinDamage { get; }
-        public int MaxDamage { get; }
+        public AttackWithWeapon Attack { get; set; }
 
-        public Item(ItemCategory category, int id, string name, int price, bool isUnique = false, int minDamage=0, int maxDamage=0)
+        public Item(ItemCategory category, int id, string name, int price, bool isUnique = false, AttackWithWeapon action = null)
         {
             Category = category;
             Id = id;
             Name = name;
             Price = price;
             IsUnique = isUnique;
-            MinDamage = minDamage;
-            MaxDamage = maxDamage;
+            Attack = action;
         }
 
-        public object Clone() => new Item(Category,Id, Name, Price, IsUnique, MinDamage, MaxDamage);
+        public void PerformAttack(LivingEntity target) => Attack?.Execute(target);
+
+        public object Clone() => new Item(Category, Id, Name, Price, IsUnique, Attack);
     }
 }

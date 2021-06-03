@@ -13,6 +13,7 @@ namespace Engine.Models
         private int _maxHealth;
         private int _credits;
         private int _level;
+        private Item _currentWeapon;
 
         public string Name
         {
@@ -64,6 +65,23 @@ namespace Engine.Models
             }
         }
 
+        public Item CurrentWeapon
+        {
+            get { return _currentWeapon; }
+            set
+            {
+                if (_currentWeapon != null)
+                    _currentWeapon.Attack.OnActionPerformed -= RaiseOnActionPerformed;
+
+                _currentWeapon = value;
+
+                if (_currentWeapon != null)
+                    _currentWeapon.Attack.OnActionPerformed += RaiseOnActionPerformed;
+
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Item> Inventory { get; }
 
         public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; }
@@ -75,6 +93,7 @@ namespace Engine.Models
         public bool IsDead => Health <= 0;
 
         public event EventHandler OnKilled;
+        public event EventHandler<string> OnActionPerformed;
 
         protected LivingEntity(string name, int maxHealth, int health, int credits, int level = 1)
         {
@@ -152,6 +171,9 @@ namespace Engine.Models
             Credits -= credits;
         }
 
+        public void AttackWithCurrentWeapon(LivingEntity target) => CurrentWeapon.Attack.Execute(target);
+
         private void RaiseOnKilledEvent() => OnKilled?.Invoke(this, System.EventArgs.Empty);
+        private void RaiseOnActionPerformed(object sender, string result) => OnActionPerformed?.Invoke(this, result);
     }
 }

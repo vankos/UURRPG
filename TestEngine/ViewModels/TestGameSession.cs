@@ -7,7 +7,7 @@ namespace TestEngine.ViewModels
     public class TestGameSession
     {
         [TestMethod]
-        public void  TestCreateGameSession()
+        public void TestCreateGameSession()
         {
             GameSession gameSession = new GameSession();
             gameSession.StartTheGame();
