@@ -71,12 +71,12 @@ namespace Engine.Models
             set
             {
                 if (_currentWeapon != null)
-                    _currentWeapon.Attack.OnActionPerformed -= RaiseOnActionPerformed;
+                    _currentWeapon.Action.OnActionPerformed -= RaiseOnActionPerformed;
 
                 _currentWeapon = value;
 
                 if (_currentWeapon != null)
-                    _currentWeapon.Attack.OnActionPerformed += RaiseOnActionPerformed;
+                    _currentWeapon.Action.OnActionPerformed += RaiseOnActionPerformed;
 
                 OnPropertyChanged();
             }
@@ -171,7 +171,7 @@ namespace Engine.Models
             Credits -= credits;
         }
 
-        public void AttackWithCurrentWeapon(LivingEntity target) => CurrentWeapon.Attack.Execute(target);
+        public void AttackWithCurrentWeapon(LivingEntity target) => CurrentWeapon.Action.Execute(this,target);
 
         private void RaiseOnKilledEvent() => OnKilled?.Invoke(this, System.EventArgs.Empty);
         private void RaiseOnActionPerformed(object sender, string result) => OnActionPerformed?.Invoke(this, result);

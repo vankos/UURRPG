@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Engine.Actions
 {
-    public class AttackWithWeapon
+    public class AttackWithWeapon:IAction
     {
         private readonly int _maxDamage;
         private readonly int _minDamage;
@@ -28,7 +28,7 @@ namespace Engine.Actions
             _minDamage = minDamage;
         }
 
-        public void Execute(LivingEntity target)
+        public void Execute(LivingEntity actor, LivingEntity target)
         {
             int damage = RandomNumberGenerator.GetRandNumberBetween(_minDamage, _maxDamage);
             ReportResult($"\nYou deal to {target.Name} {damage} hp damage");

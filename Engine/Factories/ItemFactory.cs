@@ -22,7 +22,7 @@ namespace Engine.Factories
         private static void BuildWeapon(int id, string name, int price, int minDamage, int maxDamage)
         {
             Item newItem = (new Item(Item.ItemCategory.Weapon, id, name, price, true));
-            newItem.Attack = new Actions.AttackWithWeapon(newItem, minDamage, maxDamage);
+            newItem.Action = new Actions.AttackWithWeapon(newItem, minDamage, maxDamage);
             _referenceItems.Add(newItem);
         }
 
