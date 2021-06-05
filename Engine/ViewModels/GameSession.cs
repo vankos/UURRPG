@@ -67,7 +67,10 @@ namespace Engine.ViewModels
             set
             {
                 if (_currentEnemy != null)
+                {
                     _currentEnemy.OnKilled -= OnCurrentEnemyKilled;
+                    _currentEnemy.OnActionPerformed -= OnCurrentEnemyPerformedAction;
+                }
 
                 _currentEnemy = value;
 
@@ -75,6 +78,7 @@ namespace Engine.ViewModels
                 {
                     RaiseMessage($"\nYou see a {CurrentEnemy.Name}!");
                     _currentEnemy.OnKilled += OnCurrentEnemyKilled;
+                    _currentEnemy.OnActionPerformed += OnCurrentEnemyPerformedAction;
                 }
 
                 OnPropertyChanged();
@@ -178,15 +182,9 @@ namespace Engine.ViewModels
             CurrentPlayer.AttackWithCurrentWeapon(CurrentEnemy);
 
             if (CurrentEnemy.IsDead)
-            {
                 GetLocationMonster();
-            }
             else
-            {
-                int enemyDamage = RandomNumberGenerator.GetRandNumberBetween(CurrentEnemy.MinDamage, CurrentEnemy.MaxDamage);
-                RaiseMessage($"{CurrentEnemy.Name} deal to you {enemyDamage} hp damage");
-                CurrentPlayer.TakeDamage(enemyDamage);
-            }
+                CurrentEnemy.AttackWithCurrentWeapon(CurrentPlayer);
         }
 
         private void CompleteQuestsAtLocation()
@@ -247,7 +245,7 @@ namespace Engine.ViewModels
         }
 
         private void OnPlayerLevelUp(object sender, System.EventArgs e) => RaiseMessage($"\nYou got level {CurrentPlayer.Level}!");
-
-        private void OnCurrentPlayerPerformedAction(object sender, string result) => RaiseMessage("Result");
+        private void OnCurrentPlayerPerformedAction(object sender, string result) => RaiseMessage(result);
+        private void OnCurrentEnemyPerformedAction(object sender, string result) => RaiseMessage(result);
     }
 }

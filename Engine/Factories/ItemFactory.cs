@@ -11,6 +11,9 @@ namespace Engine.Factories
         {
             BuildWeapon(1, "Pen", 5, 1, 3);
             BuildWeapon(2, "Ruler", 30, 2, 3);
+
+            BuildWeapon(5, "Snail teeth", 0, 1, 2);
+
             BuildMiscellaneousItem(3, "Snail's sneeze", 5);
             BuildMiscellaneousItem(4, "Slime", 2);
         }

@@ -11,7 +11,10 @@ namespace Engine.Factories
             switch (monsterId)
             {
                 case 1:
-                    Enemy snail = new Enemy("Snail", "snail.png", 4, 4, 5, 1, 1, 2);
+                    Enemy snail = new Enemy("Snail", "snail.png", 4, 4, 5, 1)
+                    {
+                        CurrentWeapon = ItemFactory.CreateItem(5)
+                    };
                     AddLootItem(snail, 3, 80);
                     AddLootItem(snail, 4, 60);
                     return snail;

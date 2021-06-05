@@ -31,7 +31,11 @@ namespace Engine.Actions
         public void Execute(LivingEntity actor, LivingEntity target)
         {
             int damage = RandomNumberGenerator.GetRandNumberBetween(_minDamage, _maxDamage);
-            ReportResult($"\nYou deal to {target.Name} {damage} hp damage");
+
+            string actorString = (actor is Player) ? "You" : actor.Name;
+            string targetString = (target is Player) ? "you" : target.Name.ToLower();
+
+            ReportResult($"\n{actorString} deal to {targetString} {damage} hp damage");
             target.TakeDamage(damage);
         }
 
