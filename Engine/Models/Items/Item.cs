@@ -8,7 +8,8 @@ namespace Engine.Models.Items
         public enum ItemCategory
         {
             Miscellaneous,
-            Weapon
+            Weapon,
+            Consumable
         }
 
         public ItemCategory Category { get; }
@@ -28,7 +29,7 @@ namespace Engine.Models.Items
             Action = action;
         }
 
-        public void PerformAttack(LivingEntity actor, LivingEntity target) => Action?.Execute(actor, target);
+        public void PerformAction(LivingEntity actor, LivingEntity target) => Action?.Execute(actor, target);
 
         public object Clone() => new Item(Category, Id, Name, Price, IsUnique, Action);
     }

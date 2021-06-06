@@ -38,6 +38,7 @@ namespace UI
         }
 
         private void OnClick_Attack(object sender, RoutedEventArgs e) => _gameSession.AttackEnemy();
+        private void OnClick_UseConsumable(object sender, RoutedEventArgs e) => _gameSession.UseCurrentConsumable();
 
         private void OnClick_DisplayTradeMenu(object sender, RoutedEventArgs e)
         {

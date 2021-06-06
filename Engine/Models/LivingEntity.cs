@@ -14,6 +14,7 @@ namespace Engine.Models
         private int _credits;
         private int _level;
         private Item _currentWeapon;
+        private Item _currentConsumable;
 
         public string Name
         {
@@ -82,6 +83,23 @@ namespace Engine.Models
             }
         }
 
+        public Item CurrentConsumable
+        {
+            get { return _currentConsumable; }
+            set
+            {
+                if (_currentConsumable != null)
+                    _currentConsumable.Action.OnActionPerformed -= RaiseOnActionPerformed;
+
+                _currentConsumable = value;
+
+                if (_currentConsumable != null)
+                    _currentConsumable.Action.OnActionPerformed += RaiseOnActionPerformed;
+
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<Item> Inventory { get; }
 
         public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; }
@@ -90,7 +108,13 @@ namespace Engine.Models
         public List<Item> Weapons => Inventory.Where(i => i.Category == Item.ItemCategory.Weapon).ToList();
 #pragma warning restore S2365 // Properties should not make collection or array copies
 
+#pragma warning disable S2365 // Properties should not make collection or array copies
+        public List<Item> Consumables => Inventory.Where(i => i.Category == Item.ItemCategory.Consumable).ToList();
+#pragma warning restore S2365 // Properties should not make collection or array copies
+
         public bool IsDead => Health <= 0;
+
+        public bool HasConsumables => Consumables.Count>0;
 
         public event EventHandler OnKilled;
         public event EventHandler<string> OnActionPerformed;
@@ -123,6 +147,8 @@ namespace Engine.Models
             }
 
             OnPropertyChanged(nameof(Weapons));
+            OnPropertyChanged(nameof(Consumables));
+            OnPropertyChanged(nameof(HasConsumables));
         }
 
         public void RemoveItemFromInventory(Item item)
@@ -141,6 +167,8 @@ namespace Engine.Models
             }
 
             OnPropertyChanged(nameof(Weapons));
+            OnPropertyChanged(nameof(Consumables));
+            OnPropertyChanged(nameof(HasConsumables));
         }
 
         public void TakeDamage(int damage)
@@ -171,7 +199,8 @@ namespace Engine.Models
             Credits -= credits;
         }
 
-        public void AttackWithCurrentWeapon(LivingEntity target) => CurrentWeapon.Action.Execute(this,target);
+        public void AttackWithCurrentWeapon(LivingEntity target) => CurrentWeapon.PerformAction(this, target);
+        public void UseCurrentConsumable(LivingEntity target) => CurrentConsumable.PerformAction(this,target);
 
         private void RaiseOnKilledEvent() => OnKilled?.Invoke(this, System.EventArgs.Empty);
         private void RaiseOnActionPerformed(object sender, string result) => OnActionPerformed?.Invoke(this, result);

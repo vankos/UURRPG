@@ -115,6 +115,7 @@ namespace Engine.ViewModels
 
             if (CurrentPlayer.Weapons.Count == 0)
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(6));
 
             CurrentWorld = WorldFactory.CreateWorld();
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
@@ -221,6 +222,8 @@ namespace Engine.ViewModels
                 }
             }
         }
+
+        public void UseCurrentConsumable()=>CurrentPlayer.UseCurrentConsumable(CurrentPlayer);
 
         private void OnCurrentPlayerKilled(object sender, System.EventArgs e)
         {
