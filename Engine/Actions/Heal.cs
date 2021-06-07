@@ -4,18 +4,14 @@ using System;
 
 namespace Engine.Actions
 {
-    public class Heal : IAction
+    public class Heal : BaseAction, IAction
     {
-        private readonly Item _item;
         private readonly int _hp;
 
-        public event EventHandler<string> OnActionPerformed;
-
-        public Heal(Item item, int hp)
+        public Heal(Item item, int hp) : base(item)
         {
             if (item.Category != Item.ItemCategory.Consumable)
                 throw new ArgumentException($"{item.Name} is not consumable");
-            _item = item;
             _hp = hp;
         }
 
@@ -27,7 +23,5 @@ namespace Engine.Actions
             ReportResult($"\n{actorString} heal {targetString} {_hp} by {_item.Name.ToLower()}");
             target.Heal(_hp);
         }
-
-        private void ReportResult(string result) => OnActionPerformed?.Invoke(this, result);
     }
 }

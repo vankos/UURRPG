@@ -4,14 +4,12 @@ using System;
 
 namespace Engine.Actions
 {
-    public class AttackWithWeapon:IAction
+    public class AttackWithWeapon:BaseAction,IAction
     {
         private readonly int _maxDamage;
         private readonly int _minDamage;
 
-        public event EventHandler<string> OnActionPerformed;
-
-        public AttackWithWeapon(Item weapon, int minDamage, int maxDamage)
+        public AttackWithWeapon(Item weapon, int minDamage, int maxDamage):base(weapon)
         {
             if (weapon.Category != Item.ItemCategory.Weapon)
                 throw new ArgumentException($"{weapon.Name} is not a weapon");
@@ -34,7 +32,5 @@ namespace Engine.Actions
             ReportResult($"\n{actorString} deal to {targetString} {damage} hp damage");
             target.TakeDamage(damage);
         }
-
-        private void ReportResult(string result) => OnActionPerformed?.Invoke(this, result);
     }
 }
