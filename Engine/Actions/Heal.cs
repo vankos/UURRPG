@@ -26,7 +26,6 @@ namespace Engine.Actions
 
             ReportResult($"\n{actorString} heal {targetString} {_hp} by {_item.Name.ToLower()}");
             target.Heal(_hp);
-            actor.RemoveItemFromInventory(_item);
         }
 
         private void ReportResult(string result) => OnActionPerformed?.Invoke(this, result);

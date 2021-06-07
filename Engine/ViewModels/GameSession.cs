@@ -223,7 +223,11 @@ namespace Engine.ViewModels
             }
         }
 
-        public void UseCurrentConsumable()=>CurrentPlayer.UseCurrentConsumable(CurrentPlayer);
+        public void UseCurrentConsumable()
+        {
+            CurrentPlayer.UseCurrentConsumable(CurrentPlayer);
+            CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.CurrentConsumable);
+        }
 
         private void OnCurrentPlayerKilled(object sender, System.EventArgs e)
         {
