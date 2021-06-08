@@ -143,7 +143,7 @@
                         Visibility="{Binding CurrentPlayer.HasConsumables,Converter={StaticResource BooleanToVisibility}}"/>
             </Grid>
         </StackPanel>
-        <!--Inventory|Quests tabs-->
+        <!--Inventory|Quests|Schemes tabs-->
         <TabControl Grid.Row="2" Grid.Column="0" >
             <!--Inventory Tab-->
                 <TabItem Header="Inventory">
@@ -164,7 +164,14 @@
                         <DataGridTextColumn Header="Is Complete?" Binding="{Binding IsComplete}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                
+            </TabItem>
+            <!--Schemes-->
+            <TabItem Header="Schemes">
+                <DataGrid ItemsSource="{Binding CurrentPlayer.Schemes}" AutoGenerateColumns="False" HeadersVisibility="Column">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
         </TabControl>
         <!--Game log-->

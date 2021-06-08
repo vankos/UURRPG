@@ -34,6 +34,7 @@ namespace Engine.Models
         }
 
         public ObservableCollection<QuestStatus> Quests { get; }
+        public ObservableCollection<Scheme> Schemes { get; }
 
         public event EventHandler OnLevelUp;
 
@@ -42,6 +43,7 @@ namespace Engine.Models
             CharacterClass = charClass;
             Experience = expirience;
             Quests = new ObservableCollection<QuestStatus>();
+            Schemes = new ObservableCollection<Scheme>();
         }
 
         public bool HasAllThisItems(List<ItemQuantity> items)
@@ -66,6 +68,12 @@ namespace Engine.Models
                 FullHeal();
                 OnLevelUp?.Invoke(this, System.EventArgs.Empty);
             }
+        }
+
+        public void LearnScheme(Scheme scheme)
+        {
+            if (!Schemes.Any(s => s.ID == scheme.ID))
+                Schemes.Add(scheme);
         }
     }
 }

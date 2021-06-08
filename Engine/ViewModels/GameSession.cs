@@ -116,6 +116,7 @@ namespace Engine.ViewModels
             if (CurrentPlayer.Weapons.Count == 0)
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));
             CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(6));
+            CurrentPlayer.LearnScheme(SchemeFactory.GetSchemeById(1));
 
             CurrentWorld = WorldFactory.CreateWorld();
             CurrentLocation = CurrentWorld.LocationAt(0, 0);

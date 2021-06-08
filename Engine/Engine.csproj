@@ -50,10 +50,12 @@
     <Compile Include="Factories\ItemFactory.cs" />
     <Compile Include="Factories\MonsterFactory.cs" />
     <Compile Include="Factories\QuestFactory.cs" />
+    <Compile Include="Factories\SchemeFactory.cs" />
     <Compile Include="Factories\TraderFactory.cs" />
     <Compile Include="Factories\WorldFactory.cs" />
     <Compile Include="Models\Items\GroupedInventoryItem.cs" />
     <Compile Include="Models\Items\Item.cs" />
+    <Compile Include="Models\Items\Scheme.cs" />
     <Compile Include="Models\LivingEntity.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Enemy.cs" />
@@ -75,7 +77,6 @@
   <ItemGroup>
     <Resource Include="Images\Locations\basement.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Monsters\snail.png" />
   </ItemGroup>
