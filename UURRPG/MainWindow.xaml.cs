@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Documents;
 using Engine.EventArgs;
+using Engine.Models.Items;
 using Engine.ViewModels;
 using UURRPG;
 
@@ -49,6 +50,12 @@ namespace UI
             };
 
             tradeMenu.ShowDialog();
+        }
+
+        private void OnClick_Craft(object sender, RoutedEventArgs e)
+        {
+            Scheme scheme = ((FrameworkElement)sender).DataContext as Scheme;
+            _gameSession.CraftItemUsing(scheme);
         }
     }
 }

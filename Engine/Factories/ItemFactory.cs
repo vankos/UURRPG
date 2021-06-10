@@ -43,10 +43,6 @@ namespace Engine.Factories
             _referenceItems.Add(newItem);
         }
 
-        public static string GetItemNameById(int itemId)
-        {
-            Item standartItem = _referenceItems.Find(i => i.Id == itemId);
-            return standartItem?.Name;
-        }
+        public static string GetItemNameById(int itemId)=> _referenceItems.Find(i => i.Id == itemId)?.Name ?? "*";
     }
 }

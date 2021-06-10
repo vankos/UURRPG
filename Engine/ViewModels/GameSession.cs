@@ -196,13 +196,8 @@ namespace Engine.ViewModels
                 QuestStatus questToComplete = CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.ID == quest.ID && !q.IsComplete);
                 if (questToComplete != null && CurrentPlayer.HasAllThisItems(quest.Requirements))
                 {
-                    foreach (ItemQuantity iq in quest.Requirements)
-                    {
-                        for (int i = 0; i < iq.Quantity; i++)
-                        {
-                            CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.Inventory.First(it => it.Id == iq.ItemId));
-                        }
-                    }
+                    CurrentPlayer.RemoveItemsFromInventory(quest.Requirements);
+
                     RaiseMessage($"\n You completed '{quest.Name}' quest!");
                     RaiseMessage($"You got {quest.RewardCredits} credits");
                     CurrentPlayer.ReciveCredits(quest.RewardCredits);
@@ -228,6 +223,32 @@ namespace Engine.ViewModels
         {
             CurrentPlayer.UseCurrentConsumable(CurrentPlayer);
             CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.CurrentConsumable);
+        }
+
+        public void CraftItemUsing(Scheme scheme)
+        {
+            if (CurrentPlayer.HasAllThisItems(scheme.RequiredItems))
+            {
+                CurrentPlayer.RemoveItemsFromInventory(scheme.RequiredItems);
+                foreach (var item in scheme.QutputItems)
+                {
+                    for (int i = 0; i < item.Quantity; i++)
+                    {
+                        Item outputItem = ItemFactory.CreateItem(item.ItemId);
+                        CurrentPlayer.AddItemToInventory(outputItem);
+                        RaiseMessage($"\nYou created {outputItem.Name}");
+                    }
+                }
+            }
+            else
+            {
+                RaiseMessage("\nYou don't have required details for the scheme");
+                RaiseMessage("You need:");
+                foreach (var item in scheme.RequiredItems)
+                {
+                    RaiseMessage($" You need: {item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                }
+            }
         }
 
         private void OnCurrentPlayerKilled(object sender, System.EventArgs e)

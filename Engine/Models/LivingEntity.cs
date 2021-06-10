@@ -1,4 +1,5 @@
 ﻿using Engine.Models.Items;
+using Engine.Models.Quests;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -169,6 +170,27 @@ namespace Engine.Models
             OnPropertyChanged(nameof(Weapons));
             OnPropertyChanged(nameof(Consumables));
             OnPropertyChanged(nameof(HasConsumables));
+        }
+
+        public void RemoveItemsFromInventory(List<ItemQuantity> itemQuantities)
+        {
+            foreach (var itemQuantity in itemQuantities)
+            {
+                for (int i = 0; i < itemQuantity.Quantity; i++)
+                {
+                    RemoveItemFromInventory(Inventory.First(item => item.Id == itemQuantity.ItemId));
+                }
+            }
+        }
+
+        public bool HasAllThisItems(List<ItemQuantity> itemQuantities)
+        {
+            foreach (var itemQuantity in itemQuantities)
+            {
+                if (Inventory.Count(item => item.Id == itemQuantity.ItemId) < itemQuantity.Quantity)
+                    return false;
+            }
+            return true;
         }
 
         public void TakeDamage(int damage)

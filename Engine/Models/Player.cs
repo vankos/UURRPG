@@ -1,7 +1,6 @@
 ﻿using Engine.Models.Items;
 using Engine.Models.Quests;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -44,16 +43,6 @@ namespace Engine.Models
             Experience = expirience;
             Quests = new ObservableCollection<QuestStatus>();
             Schemes = new ObservableCollection<Scheme>();
-        }
-
-        public bool HasAllThisItems(List<ItemQuantity> items)
-        {
-            foreach (var item in items)
-            {
-                if (Inventory.Count(i => i.Id == item.ItemId) < item.Quantity)
-                    return false;
-            }
-            return true;
         }
 
         public void AddExp(int exp) => Experience += exp;
