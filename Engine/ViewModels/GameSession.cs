@@ -175,6 +175,8 @@ namespace Engine.ViewModels
 
         public void AttackEnemy()
         {
+            if (CurrentEnemy == null) return;
+
             if (CurrentPlayer.CurrentWeapon == null)
             {
                 RaiseMessage("You must select a weapon!");
@@ -221,6 +223,8 @@ namespace Engine.ViewModels
 
         public void UseCurrentConsumable()
         {
+            if (CurrentPlayer.CurrentConsumable == null) return;
+
             CurrentPlayer.UseCurrentConsumable(CurrentPlayer);
             CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.CurrentConsumable);
         }

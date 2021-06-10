@@ -8,7 +8,8 @@
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         Title="Unoriginal Ugly Rouglike RPG" Height="450" Width="800" WindowState="Maximized"
-        FontSize="11pt">
+        FontSize="11pt"
+        KeyDown="Window_KeyDown">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
     </Window.Resources>

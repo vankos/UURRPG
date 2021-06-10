@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Documents;
 using Engine.EventArgs;
 using Engine.Models.Items;
@@ -14,10 +16,12 @@ namespace UI
     public partial class MainWindow : Window
     {
         private readonly GameSession _gameSession;
+        private readonly Dictionary<Key,Action> _userInputActions = new Dictionary<Key, Action>();
 
         public MainWindow()
         {
             InitializeComponent();
+            InitializeUserInputAction();
             _gameSession = new GameSession();
             _gameSession.OnMessageRaised += OnMessageRaised;
             _gameSession.StartTheGame();
@@ -56,6 +60,22 @@ namespace UI
         {
             Scheme scheme = ((FrameworkElement)sender).DataContext as Scheme;
             _gameSession.CraftItemUsing(scheme);
+        }
+
+        private void InitializeUserInputAction()
+        {
+            _userInputActions.Add(Key.W,()=>_gameSession.MoveNorth());
+            _userInputActions.Add(Key.A,()=>_gameSession.MoveWest());
+            _userInputActions.Add(Key.S,()=>_gameSession.MoveSouth());
+            _userInputActions.Add(Key.D,()=>_gameSession.MoveEast());
+            _userInputActions.Add(Key.X,()=>_gameSession.AttackEnemy());
+            _userInputActions.Add(Key.C,()=>_gameSession.UseCurrentConsumable());
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (_userInputActions.ContainsKey(e.Key))
+                _userInputActions[e.Key].Invoke();
         }
     }
 }
