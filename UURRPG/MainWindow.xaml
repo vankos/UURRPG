@@ -145,9 +145,9 @@
             </Grid>
         </StackPanel>
         <!--Inventory|Quests|Schemes tabs-->
-        <TabControl Grid.Row="2" Grid.Column="0" >
+        <TabControl x:Name="PlayerTabControl" Grid.Row="2" Grid.Column="0" >
             <!--Inventory Tab-->
-                <TabItem Header="Inventory">
+                <TabItem Header="Inventory" x:Name="InventoryTab">
                 <DataGrid ItemsSource="{Binding CurrentPlayer.GroupedInventory}" AutoGenerateColumns="False" HeadersVisibility="Column">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Item.Name, Mode=OneWay}" Width="*"/>
@@ -158,7 +158,7 @@
                 </DataGrid>  
             </TabItem>
             <!--Quest Tab-->
-            <TabItem Header="Journal">
+            <TabItem Header="Journal"  x:Name="JournalTab">
                 <DataGrid ItemsSource="{Binding CurrentPlayer.Quests}" AutoGenerateColumns="False" HeadersVisibility="Column">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding PlayerQuest.Name, Mode=OneWay}" Width="*"/>
@@ -167,7 +167,7 @@
                 </DataGrid>
             </TabItem>
             <!--Schemes-->
-            <TabItem Header="Schemes">
+            <TabItem Header="Schemes"  x:Name="SchemesTab">
                 <DataGrid ItemsSource="{Binding CurrentPlayer.Schemes}" AutoGenerateColumns="False" HeadersVisibility="Column">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}" Width="*"/>

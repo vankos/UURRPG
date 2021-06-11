@@ -7,6 +7,7 @@ using Engine.EventArgs;
 using Engine.Models.Items;
 using Engine.ViewModels;
 using UURRPG;
+using System.Windows.Controls;
 
 namespace UI
 {
@@ -47,6 +48,8 @@ namespace UI
 
         private void OnClick_DisplayTradeMenu(object sender, RoutedEventArgs e)
         {
+            if (!_gameSession.HasTrader) return;
+            
             TradeMenu tradeMenu = new TradeMenu()
             {
                 Owner = this,
@@ -70,12 +73,28 @@ namespace UI
             _userInputActions.Add(Key.D,()=>_gameSession.MoveEast());
             _userInputActions.Add(Key.X,()=>_gameSession.AttackEnemy());
             _userInputActions.Add(Key.C,()=>_gameSession.UseCurrentConsumable());
+            _userInputActions.Add(Key.I,()=>SetActiveTab("InventoryTab"));
+            _userInputActions.Add(Key.J,()=> SetActiveTab("JournalTab"));
+            _userInputActions.Add(Key.R,()=> SetActiveTab("SchemesTab"));
+            _userInputActions.Add(Key.T,()=> OnClick_DisplayTradeMenu(null, null));
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (_userInputActions.ContainsKey(e.Key))
                 _userInputActions[e.Key].Invoke();
+        }
+
+        private void SetActiveTab(string tabName)
+        {
+            foreach (var tab in PlayerTabControl.Items)
+            {
+                if (tab is TabItem tabItem && tabItem.Name == tabName)
+                {
+                    tabItem.IsSelected = true;
+                    return;
+                }
+            }
         }
     }
 }
