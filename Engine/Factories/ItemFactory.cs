@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml;
 using Engine.Actions;
 using Engine.Models.Items;
+using Engine.Shared;
 
 namespace Engine.Factories
 {
@@ -41,21 +42,21 @@ namespace Engine.Factories
                 if (Enum.TryParse(xmlNode.Name, out Item.ItemCategory itemCategory))
                 {
                     Item newItem = new Item(itemCategory,
-                        GetXMLAttribute<int>(xmlNode, "ID"),
-                        GetXMLAttribute<string>(xmlNode, "Name"),
-                        GetXMLAttribute<int>(xmlNode, "Price"),
+                        xmlNode.GetXMLAttributeValue<int>( "ID"),
+                        xmlNode.GetXMLAttributeValue<string>( "Name"),
+                        xmlNode.GetXMLAttributeValue<int>( "Price"),
                         itemCategory == Item.ItemCategory.Weapon);
 
                     if (itemCategory == Item.ItemCategory.Weapon)
                     {
                         newItem.Action = new AttackWithWeapon(newItem,
-                            GetXMLAttribute<int>(xmlNode, "MinDamage"),
-                            GetXMLAttribute<int>(xmlNode, "MaxDamage"));
+                            xmlNode.GetXMLAttributeValue<int>( "MinDamage"),
+                            xmlNode.GetXMLAttributeValue<int>( "MaxDamage"));
                     }
                     else if (itemCategory == Item.ItemCategory.Consumable)
                     {
                         newItem.Action = new Heal(newItem,
-                            GetXMLAttribute<int>(xmlNode, "Hp"));
+                            xmlNode.GetXMLAttributeValue<int>("Hp"));
                     }
 
                     _referenceItems.Add(newItem);
@@ -65,16 +66,6 @@ namespace Engine.Factories
                     throw new XmlException($"Wrong data tag {xmlNode.Name}");
                 }
             }
-        }
-
-        private static T GetXMLAttribute<T>(XmlNode xmlNode, string attributeName)
-        {
-            XmlAttribute xmlAttribute = xmlNode.Attributes?[attributeName];
-
-            if (xmlAttribute == null)
-                throw new ArgumentException($"The attribute {attributeName} is not found for {xmlNode.Name} node");
-
-            return (T)Convert.ChangeType(xmlAttribute.Value, typeof(T));
         }
 
         public static Item CreateItem(int itemId) => _referenceItems.Find(i => i.Id == itemId).Clone() as Item;
