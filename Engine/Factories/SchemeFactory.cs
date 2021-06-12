@@ -12,7 +12,7 @@ namespace Engine.Factories
             Scheme SmallRedSyringe = new Scheme(1, "Small red syringe");
             SmallRedSyringe.AddIngredient(3, 1);
             SmallRedSyringe.AddIngredient(4, 1);
-            SmallRedSyringe.AddOutputItem(5, 1);
+            SmallRedSyringe.AddOutputItem(6, 1);
 
             _schemes.Add(SmallRedSyringe);
         }
