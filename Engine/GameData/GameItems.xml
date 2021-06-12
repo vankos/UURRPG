@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<GameItems>
+  <Weapons>
+    <Weapon ID="1" Name="Pen" Price="5" MinDamage="1" MaxDamage="3"/>
+    <Weapon ID="2" Name="Ruler" Price="30" MinDamage="2" MaxDamage="3"/>
+    <Weapon ID="5" Name="Snail teeth" Price="0" MinDamage="1" MaxDamage="2"/>
+  </Weapons>
+  <ConsumableItems>
+    <Consumable ID="6" Name="Small red syringe" Price="5" Hp="5"/>
+  </ConsumableItems>
+  <MiscellaneousItems>
+    <Miscellaneous  ID="3" Name="Snail's sneeze" Price="5"/>
+    <Miscellaneous  ID="4" Name="Slime" Price="2"/>
+  </MiscellaneousItems>
+</GameItems>

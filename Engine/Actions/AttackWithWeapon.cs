@@ -4,12 +4,12 @@ using System;
 
 namespace Engine.Actions
 {
-    public class AttackWithWeapon:BaseAction,IAction
+    public class AttackWithWeapon : BaseAction, IAction
     {
         private readonly int _maxDamage;
         private readonly int _minDamage;
 
-        public AttackWithWeapon(Item weapon, int minDamage, int maxDamage):base(weapon)
+        public AttackWithWeapon(Item weapon, int minDamage, int maxDamage) : base(weapon)
         {
             if (weapon.Category != Item.ItemCategory.Weapon)
                 throw new ArgumentException($"{weapon.Name} is not a weapon");

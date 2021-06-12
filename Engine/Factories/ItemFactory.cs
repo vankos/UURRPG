@@ -1,48 +1,84 @@
-﻿using Engine.Actions;
-using Engine.Models.Items;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using Engine.Actions;
+using Engine.Models.Items;
 
 namespace Engine.Factories
 {
     internal static class ItemFactory
     {
+        private const string GAME_DATA_FILENAME = ".\\GameData\\GameItems.xml";
+
         private readonly static List<Item> _referenceItems = new List<Item>();
 
         static ItemFactory()
         {
-            //Player Weapons
-            BuildWeapon(1, "Pen", 5, 1, 3);
-            BuildWeapon(2, "Ruler", 30, 2, 3);
+            if (File.Exists(GAME_DATA_FILENAME))
+            {
+                XmlDocument data = new XmlDocument();
+                data.LoadXml(File.ReadAllText(GAME_DATA_FILENAME));
 
-            //Ene,y weapons
-            BuildWeapon(5, "Snail teeth", 0, 1, 2);
+                LoadItemsFromNodes(data.SelectNodes("/GameItems/Weapons/Weapon"));
+                LoadItemsFromNodes(data.SelectNodes("/GameItems/ConsumableItems/Consumable"));
+                LoadItemsFromNodes(data.SelectNodes("/GameItems/MiscellaneousItems/Miscellaneous"));
+            }
+            else
+            {
+#pragma warning disable S3877 // Exceptions should not be thrown from unexpected methods
+                throw new FileNotFoundException("XML file with game data was no found", GAME_DATA_FILENAME);
+#pragma warning restore S3877 // Exceptions should not be thrown from unexpected methods
+            }
+        }
 
-            //Consumable
-            BuildHealingItem(6, "Small red syringe", 5, 5);
+        private static void LoadItemsFromNodes(XmlNodeList xmlNodeList)
+        {
+            if (xmlNodeList == null) return;
 
-            //Miscellaneous
-            BuildMiscellaneousItem(3, "Snail's sneeze", 5);
-            BuildMiscellaneousItem(4, "Slime", 2);
+            foreach (XmlNode xmlNode in xmlNodeList)
+            {
+                if (Enum.TryParse(xmlNode.Name, out Item.ItemCategory itemCategory))
+                {
+                    Item newItem = new Item(itemCategory,
+                        GetXMLAttribute<int>(xmlNode, "ID"),
+                        GetXMLAttribute<string>(xmlNode, "Name"),
+                        GetXMLAttribute<int>(xmlNode, "Price"),
+                        itemCategory == Item.ItemCategory.Weapon);
+
+                    if (itemCategory == Item.ItemCategory.Weapon)
+                    {
+                        newItem.Action = new AttackWithWeapon(newItem,
+                            GetXMLAttribute<int>(xmlNode, "MinDamage"),
+                            GetXMLAttribute<int>(xmlNode, "MaxDamage"));
+                    }
+                    else if (itemCategory == Item.ItemCategory.Consumable)
+                    {
+                        newItem.Action = new Heal(newItem,
+                            GetXMLAttribute<int>(xmlNode, "Hp"));
+                    }
+
+                    _referenceItems.Add(newItem);
+                }
+                else
+                {
+                    throw new XmlException($"Wrong data tag {xmlNode.Name}");
+                }
+            }
+        }
+
+        private static T GetXMLAttribute<T>(XmlNode xmlNode, string attributeName)
+        {
+            XmlAttribute xmlAttribute = xmlNode.Attributes?[attributeName];
+
+            if (xmlAttribute == null)
+                throw new ArgumentException($"The attribute {attributeName} is not found for {xmlNode.Name} node");
+
+            return (T)Convert.ChangeType(xmlAttribute.Value, typeof(T));
         }
 
         public static Item CreateItem(int itemId) => _referenceItems.Find(i => i.Id == itemId).Clone() as Item;
 
-        private static void BuildMiscellaneousItem(int id, string name, int price) => _referenceItems.Add(new Item(Item.ItemCategory.Miscellaneous, id, name, price));
-
-        private static void BuildWeapon(int id, string name, int price, int minDamage, int maxDamage)
-        {
-            Item newItem = (new Item(Item.ItemCategory.Weapon, id, name, price, true));
-            newItem.Action = new AttackWithWeapon(newItem, minDamage, maxDamage);
-            _referenceItems.Add(newItem);
-        }
-
-        private static void BuildHealingItem(int id, string name, int price, int hp)
-        {
-            Item newItem = (new Item(Item.ItemCategory.Consumable, id, name, price));
-            newItem.Action = new Heal(newItem,hp);
-            _referenceItems.Add(newItem);
-        }
-
-        public static string GetItemNameById(int itemId)=> _referenceItems.Find(i => i.Id == itemId)?.Name ?? "*";
+        public static string GetItemNameById(int itemId) => _referenceItems.Find(i => i.Id == itemId)?.Name ?? "*";
     }
 }

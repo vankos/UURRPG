@@ -17,7 +17,7 @@ namespace UI
     public partial class MainWindow : Window
     {
         private readonly GameSession _gameSession;
-        private readonly Dictionary<Key,Action> _userInputActions = new Dictionary<Key, Action>();
+        private readonly Dictionary<Key, Action> _userInputActions = new Dictionary<Key, Action>();
 
         public MainWindow()
         {
@@ -49,7 +49,7 @@ namespace UI
         private void OnClick_DisplayTradeMenu(object sender, RoutedEventArgs e)
         {
             if (!_gameSession.HasTrader) return;
-            
+
             TradeMenu tradeMenu = new TradeMenu()
             {
                 Owner = this,
@@ -67,16 +67,16 @@ namespace UI
 
         private void InitializeUserInputAction()
         {
-            _userInputActions.Add(Key.W,()=>_gameSession.MoveNorth());
-            _userInputActions.Add(Key.A,()=>_gameSession.MoveWest());
-            _userInputActions.Add(Key.S,()=>_gameSession.MoveSouth());
-            _userInputActions.Add(Key.D,()=>_gameSession.MoveEast());
-            _userInputActions.Add(Key.X,()=>_gameSession.AttackEnemy());
-            _userInputActions.Add(Key.C,()=>_gameSession.UseCurrentConsumable());
-            _userInputActions.Add(Key.I,()=>SetActiveTab("InventoryTab"));
-            _userInputActions.Add(Key.J,()=> SetActiveTab("JournalTab"));
-            _userInputActions.Add(Key.R,()=> SetActiveTab("SchemesTab"));
-            _userInputActions.Add(Key.T,()=> OnClick_DisplayTradeMenu(null, null));
+            _userInputActions.Add(Key.W, () => _gameSession.MoveNorth());
+            _userInputActions.Add(Key.A, () => _gameSession.MoveWest());
+            _userInputActions.Add(Key.S, () => _gameSession.MoveSouth());
+            _userInputActions.Add(Key.D, () => _gameSession.MoveEast());
+            _userInputActions.Add(Key.X, () => _gameSession.AttackEnemy());
+            _userInputActions.Add(Key.C, () => _gameSession.UseCurrentConsumable());
+            _userInputActions.Add(Key.I, () => SetActiveTab("InventoryTab"));
+            _userInputActions.Add(Key.J, () => SetActiveTab("JournalTab"));
+            _userInputActions.Add(Key.R, () => SetActiveTab("SchemesTab"));
+            _userInputActions.Add(Key.T, () => OnClick_DisplayTradeMenu(null, null));
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

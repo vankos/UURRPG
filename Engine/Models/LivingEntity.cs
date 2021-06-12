@@ -115,7 +115,7 @@ namespace Engine.Models
 
         public bool IsDead => Health <= 0;
 
-        public bool HasConsumables => Consumables.Count>0;
+        public bool HasConsumables => Consumables.Count > 0;
 
         public event EventHandler OnKilled;
         public event EventHandler<string> OnActionPerformed;
@@ -222,7 +222,7 @@ namespace Engine.Models
         }
 
         public void AttackWithCurrentWeapon(LivingEntity target) => CurrentWeapon.PerformAction(this, target);
-        public void UseCurrentConsumable(LivingEntity target) => CurrentConsumable.PerformAction(this,target);
+        public void UseCurrentConsumable(LivingEntity target) => CurrentConsumable.PerformAction(this, target);
 
         private void RaiseOnKilledEvent() => OnKilled?.Invoke(this, System.EventArgs.Empty);
         private void RaiseOnActionPerformed(object sender, string result) => OnActionPerformed?.Invoke(this, result);
