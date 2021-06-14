@@ -53,6 +53,7 @@
     <Compile Include="Factories\SchemeFactory.cs" />
     <Compile Include="Factories\TraderFactory.cs" />
     <Compile Include="Factories\WorldFactory.cs" />
+    <Compile Include="Models\ItemPercentage.cs" />
     <Compile Include="Models\Items\GroupedInventoryItem.cs" />
     <Compile Include="Models\Items\Item.cs" />
     <Compile Include="Models\Items\Scheme.cs" />
@@ -85,9 +86,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Monsters\snail.png" />
+    <None Include="Images\Enemies\snail.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GameData\Enemies.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="GameData\GameItems.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -85,7 +85,8 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding CurrentEnemy.Name}" Foreground="White"/>
-                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding CurrentEnemy.ImageName}"/>
+                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding CurrentEnemy.ImageName, 
+                        Converter={StaticResource FileToBitmapConverter}}"/>
                     <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}">
                         <TextBlock Text="Health: " Foreground="White" />
                         <TextBlock Text="{Binding CurrentEnemy.Health}" Foreground="White"/>
