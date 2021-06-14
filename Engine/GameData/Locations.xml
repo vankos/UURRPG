@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Locations RootImagePath="/Images/Locations/">
+  <Location X="0" Y="0" Name="Basement Realm" ImageName="basement.png">
+    <Description><![CDATA[Dark moist seemingly endless basement]]> </Description>
+    <Enemies>
+      <Enemy Id="1" EncounteringChance="100"/>
+    </Enemies>
+    <Quests>
+      <Quest Id="1"/>
+    </Quests>
+  </Location>
+  <Location X="0" Y="-1" Name="School Realm" ImageName="school.png">
+    <Description> <![CDATA[Fast training courses's enterprise]]> </Description>
+  </Location>
+  <Location X="0" Y="-2" Name="Hub Realm" ImageName="hub.png">
+    <Description> <![CDATA[Busy Realm Hub]]> </Description>
+    <Trader Name="Broker"/>
+  </Location>
+  
+</Locations>

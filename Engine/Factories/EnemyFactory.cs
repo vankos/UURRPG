@@ -4,7 +4,7 @@ using System;
 
 namespace Engine.Factories
 {
-    public static class MonsterFactory
+    public static class EnemyFactory
     {
         public static Enemy GetMonster(int monsterId)
         {

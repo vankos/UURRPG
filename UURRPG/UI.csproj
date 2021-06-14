@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\FileToBitmapConverter.cs" />
     <Compile Include="TradeMenu.xaml.cs">
       <DependentUpon>TradeMenu.xaml</DependentUpon>
     </Compile>

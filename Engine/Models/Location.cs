@@ -48,10 +48,10 @@ namespace Engine.Models
             {
                 runningTotal += monster.ChanceofEncountering;
                 if (randNumber <= runningTotal)
-                    return MonsterFactory.GetMonster(monster.MonsterID);
+                    return EnemyFactory.GetMonster(monster.MonsterID);
             }
 
-            return MonsterFactory.GetMonster(PossibleMonsters[0].MonsterID);
+            return EnemyFactory.GetMonster(PossibleMonsters[0].MonsterID);
         }
     }
 }
