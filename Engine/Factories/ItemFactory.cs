@@ -8,7 +8,7 @@ using Engine.Shared;
 
 namespace Engine.Factories
 {
-    internal static class ItemFactory
+    public static class ItemFactory
     {
         private const string GAME_DATA_FILENAME = ".\\GameData\\GameItems.xml";
 
