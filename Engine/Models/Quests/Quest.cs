@@ -14,12 +14,13 @@ namespace Engine.Models.Quests
         public int RewardCredits { get; }
         public List<ItemQuantity> RewardItems { get; }
 
-        public Quest(int iD, string name, string description, List<ItemQuantity> requirements, int rewardExperience, int rewardCredits)
+        public Quest(int iD, string name, string description, List<ItemQuantity> requirements, List<ItemQuantity> rewardItems, int rewardExperience, int rewardCredits)
         {
             ID = iD;
             Name = name;
             Description = description;
             Requirements = requirements;
+            RewardItems = rewardItems;
             RewardExperience = rewardExperience;
             RewardCredits = rewardCredits;
         }

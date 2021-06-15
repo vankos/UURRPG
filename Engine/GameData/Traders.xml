@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Traders>
+  <Trader Id="1" Name="Broker">
+    <Inventory>
+      <Item Id="2" Quantity="1"/>
+    </Inventory>
+  </Trader>
+</Traders>

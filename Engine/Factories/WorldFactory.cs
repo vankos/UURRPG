@@ -52,7 +52,7 @@ namespace Engine.Factories
         {
             if (traderNode != null)
             {
-                newLocation.LocalTrader = TraderFactory.GetTraderByName(traderNode.GetXMLAttributeValue<string>("Name"));
+                newLocation.LocalTrader = TraderFactory.GetTraderByName(traderNode.GetXMLAttributeValue<int>("Id"));
             }
         }
 

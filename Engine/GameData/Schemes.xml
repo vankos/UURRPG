@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Schemes>
+  <Scheme Id="1" Name="Small red syringe">
+    <Ingredients>
+      <Item Id="3" Quantity="1"/>
+      <Item Id="4" Quantity="1"/>
+    </Ingredients>
+    <OutputItems>
+      <Item Id="6" Quantity="1"/>
+    </OutputItems>
+  </Scheme>
+</Schemes>

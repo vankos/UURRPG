@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Quests>
+  <Quest Id="1" Name="Sneeze collector" RewardExperience="10" rewardCredits="5">
+    <Description><![CDATA[Poke snails around with your Pen and collect their sneeze]]> </Description>
+    <Requirements>
+      <Item Id="3" Quantity="5"/>
+    </Requirements>
+    <RewardItems>
+      <Item Id="2" Quantity="1"/>
+    </RewardItems>
+  </Quest> 
+</Quests>

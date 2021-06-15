@@ -14,7 +14,7 @@
   </Location>
   <Location X="0" Y="-2" Name="Hub Realm" ImageName="hub.png">
     <Description> <![CDATA[Busy Realm Hub]]> </Description>
-    <Trader Name="Broker"/>
+    <Trader Id="1"/>
   </Location>
   
 </Locations>
