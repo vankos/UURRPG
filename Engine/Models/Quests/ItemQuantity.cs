@@ -1,4 +1,6 @@
-﻿namespace Engine.Models.Quests
+﻿using Engine.Factories;
+
+namespace Engine.Models.Quests
 {
     public struct ItemQuantity
     {
@@ -25,6 +27,8 @@
             hashCode = (hashCode * -1521134295) + Quantity.GetHashCode();
             return hashCode;
         }
+
+        public override string ToString() => $"{Quantity}x{ItemFactory.GetItemNameById(ItemId)}";
 
         public static bool operator ==(ItemQuantity left, ItemQuantity right)
         {

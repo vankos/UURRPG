@@ -1,6 +1,7 @@
 ﻿using Engine.Models.Quests;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Engine.Models.Items
 {
@@ -28,6 +29,20 @@ namespace Engine.Models.Items
         {
             if (!QutputItems.Any(x => x.ItemId == itemID))
                 QutputItems.Add(new ItemQuantity(itemID, quantity));
+        }
+
+        public string TooltipMessage
+        {
+            get
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine("You need:");
+                foreach (var item in RequiredItems)
+                {
+                    stringBuilder.AppendLine(item.ToString());
+                }
+                return stringBuilder.ToString();
+            }
         }
     }
 }
