@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Engine.Services;
 using System.Windows;
 
 namespace UI
@@ -13,5 +8,11 @@ namespace UI
     /// </summary>
     public partial class App : Application
     {
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            string exceptionMessageText = $"Exception occurred:{e.Exception.Message}\r\n\r\nat:{e.Exception.StackTrace}";
+            LoggingService.Log(e.Exception);
+            MessageBox.Show(exceptionMessageText, "UnhandledException", MessageBoxButton.OK);
+        }
     }
 }
