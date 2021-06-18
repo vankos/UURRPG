@@ -53,6 +53,7 @@
     <Compile Include="Factories\SchemeFactory.cs" />
     <Compile Include="Factories\TraderFactory.cs" />
     <Compile Include="Factories\WorldFactory.cs" />
+    <Compile Include="Inventory.cs" />
     <Compile Include="Models\ItemPercentage.cs" />
     <Compile Include="Models\Items\GroupedInventoryItem.cs" />
     <Compile Include="Models\Items\Item.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="MonsterEncounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomNumberGenerator.cs" />
+    <Compile Include="Services\InventoryService.cs" />
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Shared\Extensions.cs" />
     <Compile Include="ViewModels\GameSession.cs" />

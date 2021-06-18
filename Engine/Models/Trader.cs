@@ -21,7 +21,7 @@ namespace Engine.Models
         {
             return obj is Trader trader &&
                    Name == trader.Name &&
-                   EqualityComparer<ObservableCollection<Item>>.Default.Equals(Inventory, trader.Inventory);
+                   EqualityComparer<IReadOnlyList<Item>>.Default.Equals(Inventory.Items, trader.Inventory.Items);
         }
     }
 }

@@ -113,7 +113,7 @@ namespace Engine.ViewModels
         {
             CurrentPlayer = new Player("John Doe", "Scientist", 0, 10, 10, 100);
 
-            if (CurrentPlayer.Weapons.Count == 0)
+            if (CurrentPlayer.Inventory.Weapons.Count == 0)
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));
             CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(6));
             CurrentPlayer.LearnScheme(SchemeFactory.GetSchemeById(1));
@@ -196,7 +196,7 @@ namespace Engine.ViewModels
             foreach (var quest in CurrentLocation.AvailibleQuests)
             {
                 QuestStatus questToComplete = CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.ID == quest.ID && !q.IsComplete);
-                if (questToComplete != null && CurrentPlayer.HasAllThisItems(quest.Requirements))
+                if (questToComplete != null && CurrentPlayer.Inventory.HasAllThisItems(quest.Requirements))
                 {
                     CurrentPlayer.RemoveItemsFromInventory(quest.Requirements);
 
@@ -231,7 +231,7 @@ namespace Engine.ViewModels
 
         public void CraftItemUsing(Scheme scheme)
         {
-            if (CurrentPlayer.HasAllThisItems(scheme.RequiredItems))
+            if (CurrentPlayer.Inventory.HasAllThisItems(scheme.RequiredItems))
             {
                 CurrentPlayer.RemoveItemsFromInventory(scheme.RequiredItems);
                 foreach (var item in scheme.QutputItems)
@@ -268,7 +268,7 @@ namespace Engine.ViewModels
             RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
             RaiseMessage($"You get {CurrentEnemy.Credits} credits");
             CurrentPlayer.ReciveCredits(CurrentEnemy.Credits);
-            foreach (Item lootItem in CurrentEnemy.Inventory)
+            foreach (Item lootItem in CurrentEnemy.Inventory.Items)
             {
                 CurrentPlayer.AddItemToInventory(lootItem);
                 RaiseMessage($"You get {lootItem.Name} from corpse");

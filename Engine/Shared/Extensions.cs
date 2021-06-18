@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Engine.Models.Items;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace Engine.Shared
@@ -13,5 +16,7 @@ namespace Engine.Shared
 
             return (T)Convert.ChangeType(xmlAttribute.Value, typeof(T));
         }
+
+        public static List<Item> GetItemsThatAre(this List<Item> inventory,Item.ItemCategory category)=> inventory.Where(i => i.Category == category).ToList();
     }
 }

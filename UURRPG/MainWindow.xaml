@@ -135,21 +135,21 @@
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
                 <!--Weapon-->
-                <ComboBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding CurrentPlayer.Weapons}" SelectedItem="{Binding CurrentPlayer.CurrentWeapon }" DisplayMemberPath="Name" 
+                <ComboBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding CurrentPlayer.Inventory.Weapons}" SelectedItem="{Binding CurrentPlayer.CurrentWeapon }" DisplayMemberPath="Name" 
                           SelectedValuePath="Id" Visibility="{Binding HasMonster,Converter={StaticResource BooleanToVisibility}}"/>
                 <Button Grid.Row="0" Grid.Column="2"  Content="Use" Click="OnClick_Attack" Visibility="{Binding HasMonster,Converter={StaticResource BooleanToVisibility}}"/>
                 <!--Consumable-->
-                <ComboBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding CurrentPlayer.Consumables}" SelectedItem="{Binding CurrentPlayer.CurrentConsumable }" 
-                          DisplayMemberPath="Name" SelectedValuePath="Id"  Visibility="{Binding CurrentPlayer.HasConsumables,Converter={StaticResource BooleanToVisibility}}"/>
+                <ComboBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding CurrentPlayer.Inventory.Consumables}" SelectedItem="{Binding CurrentPlayer.CurrentConsumable }" 
+                          DisplayMemberPath="Name" SelectedValuePath="Id"  Visibility="{Binding CurrentPlayer.Inventory.HasConsumable,Converter={StaticResource BooleanToVisibility}}"/>
                 <Button Grid.Row="1" Grid.Column="2"  Content="Use" Click="OnClick_UseConsumable"  
-                        Visibility="{Binding CurrentPlayer.HasConsumables,Converter={StaticResource BooleanToVisibility}}"/>
+                        Visibility="{Binding CurrentPlayer.Inventory.HasConsumable,Converter={StaticResource BooleanToVisibility}}"/>
             </Grid>
         </StackPanel>
         <!--Inventory|Quests|Schemes tabs-->
         <TabControl x:Name="PlayerTabControl" Grid.Row="2" Grid.Column="0" >
             <!--Inventory Tab-->
                 <TabItem Header="Inventory" x:Name="InventoryTab">
-                <DataGrid ItemsSource="{Binding CurrentPlayer.GroupedInventory}" AutoGenerateColumns="False" HeadersVisibility="Column">
+                <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory.GroupedInventory}" AutoGenerateColumns="False" HeadersVisibility="Column">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Item.Name, Mode=OneWay}" Width="*"/>
                         <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, Mode=OneWay}" Width="Auto"/>
