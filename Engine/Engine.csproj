@@ -46,7 +46,7 @@
     <Compile Include="Actions\Heal.cs" />
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="BaseNotificationClass.cs" />
-    <Compile Include="EventArgs\GameLogsEventArgs.cs" />
+    <Compile Include="EventArgs\GameMessageEventArgs.cs" />
     <Compile Include="Factories\ItemFactory.cs" />
     <Compile Include="Factories\EnemyFactory.cs" />
     <Compile Include="Factories\QuestFactory.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="RandomNumberGenerator.cs" />
     <Compile Include="Services\InventoryService.cs" />
     <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="Services\MessageBroker.cs" />
     <Compile Include="Shared\Extensions.cs" />
     <Compile Include="ViewModels\GameSession.cs" />
   </ItemGroup>

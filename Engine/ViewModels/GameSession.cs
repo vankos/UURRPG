@@ -1,21 +1,20 @@
 ﻿using Engine.Models;
 using Engine.Factories;
-using System;
 using Engine.Models.Quests;
 using System.Linq;
-using Engine.EventArgs;
 using Engine.Models.Items;
+using Engine.Services;
 
 namespace Engine.ViewModels
 {
     public class GameSession : BaseNotificationClass
     {
+        private readonly MessageBroker _messageBroker = MessageBroker.GetInstance();
+
         private Location _currentLocation;
         private Enemy _currentEnemy;
         private Trader _currentTrader;
         private Player _currentPlayer;
-
-        public event EventHandler<GameLogsEventArgs> OnMessageRaised;
 
         public Player CurrentPlayer
         {
@@ -76,7 +75,7 @@ namespace Engine.ViewModels
 
                 if (_currentEnemy != null)
                 {
-                    RaiseMessage($"\nYou see a {CurrentEnemy.Name}!");
+                    _messageBroker.RaiseMessage($"\nYou see a {CurrentEnemy.Name}!");
                     _currentEnemy.OnKilled += OnCurrentEnemyKilled;
                     _currentEnemy.OnActionPerformed += OnCurrentEnemyPerformedAction;
                 }
@@ -152,18 +151,18 @@ namespace Engine.ViewModels
             {
                 if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.ID == quest.ID))
                 {
-                    RaiseMessage($"\nYou get new Quest! '{quest.Name}':\n{quest.Description}");
+                    _messageBroker.RaiseMessage($"\nYou get new Quest! '{quest.Name}':\n{quest.Description}");
                     CurrentPlayer.Quests.Add(new QuestStatus(quest));
-                    RaiseMessage("You need:");
+                    _messageBroker.RaiseMessage("You need:");
                     foreach (var item in quest.Requirements)
-                        RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
-                    RaiseMessage($"Reward is {quest.RewardCredits} credits and {quest.RewardExperience} exp");
+                        _messageBroker.RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                    _messageBroker.RaiseMessage($"Reward is {quest.RewardCredits} credits and {quest.RewardExperience} exp");
 
                     if (quest.RewardItems != null)
                     {
-                        RaiseMessage("Also you will get:");
+                        _messageBroker.RaiseMessage("Also you will get:");
                         foreach (var item in quest.RewardItems)
-                            RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                            _messageBroker.RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
                     }
                 }
             }
@@ -171,15 +170,13 @@ namespace Engine.ViewModels
 
         private void GetLocationMonster() => CurrentEnemy = CurrentLocation.GetMonster();
 
-        private void RaiseMessage(string message) => OnMessageRaised?.Invoke(this, new GameLogsEventArgs(message));
-
         public void AttackEnemy()
         {
             if (CurrentEnemy == null) return;
 
             if (CurrentPlayer.CurrentWeapon == null)
             {
-                RaiseMessage("You must select a weapon!");
+                _messageBroker.RaiseMessage("You must select a weapon!");
                 return;
             }
 
@@ -200,20 +197,20 @@ namespace Engine.ViewModels
                 {
                     CurrentPlayer.RemoveItemsFromInventory(quest.Requirements);
 
-                    RaiseMessage($"\n You completed '{quest.Name}' quest!");
-                    RaiseMessage($"You got {quest.RewardCredits} credits");
+                    _messageBroker.RaiseMessage($"\n You completed '{quest.Name}' quest!");
+                    _messageBroker.RaiseMessage($"You got {quest.RewardCredits} credits");
                     CurrentPlayer.ReciveCredits(quest.RewardCredits);
 
                     if (quest.RewardItems != null)
                     {
-                        RaiseMessage("Also you  got:");
+                        _messageBroker.RaiseMessage("Also you  got:");
                         foreach (var item in quest.RewardItems)
                         {
-                            RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                            _messageBroker.RaiseMessage($"{item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
                             CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(item.ItemId));
                         }
                     }
-                    RaiseMessage($"You got {quest.RewardExperience} exp");
+                    _messageBroker.RaiseMessage($"You got {quest.RewardExperience} exp");
                     CurrentPlayer.AddExp(quest.RewardExperience);
 
                     questToComplete.IsComplete = true;
@@ -240,45 +237,45 @@ namespace Engine.ViewModels
                     {
                         Item outputItem = ItemFactory.CreateItem(item.ItemId);
                         CurrentPlayer.AddItemToInventory(outputItem);
-                        RaiseMessage($"\nYou created {outputItem.Name}");
+                        _messageBroker.RaiseMessage($"\nYou created {outputItem.Name}");
                     }
                 }
             }
             else
             {
-                RaiseMessage("\nYou don't have required details for the scheme");
-                RaiseMessage("You need:");
+                _messageBroker.RaiseMessage("\nYou don't have required details for the scheme");
+                _messageBroker.RaiseMessage("You need:");
                 foreach (var item in scheme.RequiredItems)
                 {
-                    RaiseMessage($" You need: {item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
+                    _messageBroker.RaiseMessage($" You need: {item.Quantity} x {ItemFactory.GetItemNameById(item.ItemId)}");
                 }
             }
         }
 
         private void OnCurrentPlayerKilled(object sender, System.EventArgs e)
         {
-            RaiseMessage("YOU DIED");
+            _messageBroker.RaiseMessage("YOU DIED");
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
             CurrentPlayer.FullHeal();
         }
 
         private void OnCurrentEnemyKilled(object sender, System.EventArgs e)
         {
-            RaiseMessage($"{CurrentEnemy.Name} is dead");
-            RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
-            RaiseMessage($"You get {CurrentEnemy.Credits} credits");
+            _messageBroker.RaiseMessage($"{CurrentEnemy.Name} is dead");
+            _messageBroker.RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
+            _messageBroker.RaiseMessage($"You get {CurrentEnemy.Credits} credits");
             CurrentPlayer.ReciveCredits(CurrentEnemy.Credits);
             foreach (Item lootItem in CurrentEnemy.Inventory.Items)
             {
                 CurrentPlayer.AddItemToInventory(lootItem);
-                RaiseMessage($"You get {lootItem.Name} from corpse");
+                _messageBroker.RaiseMessage($"You get {lootItem.Name} from corpse");
             }
             CurrentPlayer.AddExp(CurrentEnemy.RewardExp);
             CompleteQuestsAtLocation();
         }
 
-        private void OnPlayerLevelUp(object sender, System.EventArgs e) => RaiseMessage($"\nYou got level {CurrentPlayer.Level}!");
-        private void OnCurrentPlayerPerformedAction(object sender, string result) => RaiseMessage(result);
-        private void OnCurrentEnemyPerformedAction(object sender, string result) => RaiseMessage(result);
+        private void OnPlayerLevelUp(object sender, System.EventArgs e) => _messageBroker.RaiseMessage($"\nYou got level {CurrentPlayer.Level}!");
+        private void OnCurrentPlayerPerformedAction(object sender, string result) => _messageBroker.RaiseMessage(result);
+        private void OnCurrentEnemyPerformedAction(object sender, string result) => _messageBroker.RaiseMessage(result);
     }
 }

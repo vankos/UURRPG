@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Documents;
 using Engine.EventArgs;
 using Engine.Models.Items;
+using Engine.Services;
 using Engine.ViewModels;
 using UURRPG;
 using System.Windows.Controls;
@@ -16,6 +17,7 @@ namespace UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly MessageBroker _messageBroker = MessageBroker.GetInstance();
         private readonly GameSession _gameSession;
         private readonly Dictionary<Key, Action> _userInputActions = new Dictionary<Key, Action>();
 
@@ -24,7 +26,7 @@ namespace UI
             InitializeComponent();
             InitializeUserInputAction();
             _gameSession = new GameSession();
-            _gameSession.OnMessageRaised += OnMessageRaised;
+            _messageBroker.OnMessageRaised += OnMessageRaised;
             _gameSession.StartTheGame();
             DataContext = _gameSession;
         }
@@ -37,7 +39,7 @@ namespace UI
 
         private void OnClickSouth(object sender, RoutedEventArgs e) => _gameSession.MoveSouth();
 
-        private void OnMessageRaised(object sender, GameLogsEventArgs e)
+        private void OnMessageRaised(object sender, GameMessageEventArgs e)
         {
             GameLog.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
             GameLog.ScrollToEnd();
