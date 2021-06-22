@@ -10,11 +10,11 @@ namespace Engine.ViewModels
     public class GameSession : BaseNotificationClass
     {
         private readonly MessageBroker _messageBroker = MessageBroker.GetInstance();
-
         private Location _currentLocation;
         private Enemy _currentEnemy;
         private Trader _currentTrader;
         private Player _currentPlayer;
+        private Battle _currentBattle;
 
         public Player CurrentPlayer
         {
@@ -25,7 +25,6 @@ namespace Engine.ViewModels
                 {
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;
                     CurrentPlayer.OnLevelUp -= OnPlayerLevelUp;
-                    _currentPlayer.OnActionPerformed -= OnCurrentPlayerPerformedAction;
                 }
 
                 _currentPlayer = value;
@@ -34,7 +33,6 @@ namespace Engine.ViewModels
                 {
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;
                     CurrentPlayer.OnLevelUp += OnPlayerLevelUp;
-                    _currentPlayer.OnActionPerformed += OnCurrentPlayerPerformedAction;
                 }
             }
         }
@@ -53,7 +51,7 @@ namespace Engine.ViewModels
 
                 CompleteQuestsAtLocation();
                 GetLocationQuests();
-                GetLocationMonster();
+                CurrentEnemy = CurrentLocation.GetMonster();
                 CurrentTrader = CurrentLocation.LocalTrader;
             }
         }
@@ -65,19 +63,18 @@ namespace Engine.ViewModels
             get { return _currentEnemy; }
             set
             {
-                if (_currentEnemy != null)
+                if (_currentBattle != null)
                 {
-                    _currentEnemy.OnKilled -= OnCurrentEnemyKilled;
-                    _currentEnemy.OnActionPerformed -= OnCurrentEnemyPerformedAction;
+                    _currentBattle.OnVictory -= OnCurrentEnemyKilled;
+                    _currentBattle.Dispose();
                 }
 
                 _currentEnemy = value;
 
                 if (_currentEnemy != null)
                 {
-                    _messageBroker.RaiseMessage($"\nYou see a {CurrentEnemy.Name}!");
-                    _currentEnemy.OnKilled += OnCurrentEnemyKilled;
-                    _currentEnemy.OnActionPerformed += OnCurrentEnemyPerformedAction;
+                    _currentBattle = new Battle(CurrentPlayer, CurrentEnemy);
+                    _currentBattle.OnVictory += OnCurrentEnemyKilled;
                 }
 
                 OnPropertyChanged();
@@ -168,25 +165,7 @@ namespace Engine.ViewModels
             }
         }
 
-        private void GetLocationMonster() => CurrentEnemy = CurrentLocation.GetMonster();
-
-        public void AttackEnemy()
-        {
-            if (CurrentEnemy == null) return;
-
-            if (CurrentPlayer.CurrentWeapon == null)
-            {
-                _messageBroker.RaiseMessage("You must select a weapon!");
-                return;
-            }
-
-            CurrentPlayer.AttackWithCurrentWeapon(CurrentEnemy);
-
-            if (CurrentEnemy.IsDead)
-                GetLocationMonster();
-            else
-                CurrentEnemy.AttackWithCurrentWeapon(CurrentPlayer);
-        }
+        public void AttackEnemy() => _currentBattle.AttackEnemy();
 
         private void CompleteQuestsAtLocation()
         {
@@ -261,21 +240,10 @@ namespace Engine.ViewModels
 
         private void OnCurrentEnemyKilled(object sender, System.EventArgs e)
         {
-            _messageBroker.RaiseMessage($"{CurrentEnemy.Name} is dead");
-            _messageBroker.RaiseMessage($"You get {CurrentEnemy.RewardExp} exp");
-            _messageBroker.RaiseMessage($"You get {CurrentEnemy.Credits} credits");
-            CurrentPlayer.ReciveCredits(CurrentEnemy.Credits);
-            foreach (Item lootItem in CurrentEnemy.Inventory.Items)
-            {
-                CurrentPlayer.AddItemToInventory(lootItem);
-                _messageBroker.RaiseMessage($"You get {lootItem.Name} from corpse");
-            }
-            CurrentPlayer.AddExp(CurrentEnemy.RewardExp);
+            CurrentEnemy = CurrentLocation.GetMonster();
             CompleteQuestsAtLocation();
         }
 
         private void OnPlayerLevelUp(object sender, System.EventArgs e) => _messageBroker.RaiseMessage($"\nYou got level {CurrentPlayer.Level}!");
-        private void OnCurrentPlayerPerformedAction(object sender, string result) => _messageBroker.RaiseMessage(result);
-        private void OnCurrentEnemyPerformedAction(object sender, string result) => _messageBroker.RaiseMessage(result);
     }
 }
