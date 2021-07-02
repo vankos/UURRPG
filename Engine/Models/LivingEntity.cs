@@ -3,8 +3,6 @@ using Engine.Models.Quests;
 using Engine.Services;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Engine.Models
 {
@@ -12,6 +10,7 @@ namespace Engine.Models
     {
         private string _name;
         private int _health;
+        private int _dexterity;
         private int _maxHealth;
         private int _credits;
         private int _level;
@@ -21,7 +20,7 @@ namespace Engine.Models
 
         public string Name
         {
-            get { return _name; }
+            get => _name;
             private set
             {
                 _name = value;
@@ -31,7 +30,7 @@ namespace Engine.Models
 
         public int Health
         {
-            get { return _health; }
+            get => _health;
             private set
             {
                 _health = value;
@@ -39,9 +38,19 @@ namespace Engine.Models
             }
         }
 
+        public int Dexterity
+        {
+            get => _dexterity;
+            private set
+            {
+                _dexterity = value;
+                OnPropertyChanged();
+            }
+        }
+
         public int MaxHealth
         {
-            get { return _maxHealth; }
+            get => _maxHealth;
             protected set
             {
                 _maxHealth = value;
@@ -51,7 +60,7 @@ namespace Engine.Models
 
         public int Credits
         {
-            get { return _credits; }
+            get => _credits;
             private set
             {
                 _credits = value;
@@ -61,7 +70,7 @@ namespace Engine.Models
 
         public int Level
         {
-            get { return _level; }
+            get => _level;
             protected set
             {
                 _level = value;
@@ -118,7 +127,7 @@ namespace Engine.Models
         public event EventHandler OnKilled;
         public event EventHandler<string> OnActionPerformed;
 
-        protected LivingEntity(string name, int maxHealth, int health, int credits, int level = 1)
+        protected LivingEntity(string name, int maxHealth, int health, int dexterity, int credits, int level = 1)
         {
             Inventory = new Inventory();
 
@@ -127,9 +136,10 @@ namespace Engine.Models
             Health = health;
             Credits = credits;
             Level = level;
+            Dexterity = dexterity;
         }
 
-        public void AddItemToInventory(Item item)=>Inventory= Inventory.AddItem(item);
+        public void AddItemToInventory(Item item) => Inventory = Inventory.AddItem(item);
 
         public void RemoveItemFromInventory(Item item) => Inventory = Inventory.RemoveItem(item);
 

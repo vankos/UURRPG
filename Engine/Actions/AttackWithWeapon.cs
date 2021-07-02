@@ -1,5 +1,6 @@
 ﻿using Engine.Models;
 using Engine.Models.Items;
+using Engine.Services;
 using System;
 
 namespace Engine.Actions
@@ -24,13 +25,20 @@ namespace Engine.Actions
 
         public void Execute(LivingEntity actor, LivingEntity target)
         {
-            int damage = RandomNumberGenerator.GetRandNumberBetween(_minDamage, _maxDamage);
-
             string actorString = (actor is Player) ? "You" : actor.Name;
             string targetString = (target is Player) ? "you" : target.Name.ToLower();
 
-            ReportResult($"\n{actorString} deal to {targetString} {damage} hp damage");
-            target.TakeDamage(damage);
+            if (CombatService.DoesAttackSucceeded(actor, target))
+            {
+                int damage = RandomNumberGenerator.GetRandNumberBetween(_minDamage, _maxDamage);
+
+                ReportResult($"\n{actorString} deal to {targetString} {damage} hp damage");
+                target.TakeDamage(damage);
+            }
+            else
+            {
+                ReportResult($"{actorString} missed {targetString}");
+            }
         }
     }
 }

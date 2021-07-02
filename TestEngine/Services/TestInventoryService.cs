@@ -89,7 +89,7 @@ namespace TestEngine.Services
             inventory = inventory.AddItemFromFactory(1);
             inventory = inventory.AddItemFromFactory(2);
             inventory = inventory.AddItemFromFactory(3);
-            inventory = inventory.RemoveItems(new List<ItemQuantity> { new ItemQuantity(1,2) });
+            inventory = inventory.RemoveItems(new List<ItemQuantity> { new ItemQuantity(1, 2) });
 
             Assert.AreEqual(2, inventory.Items.Count);
         }
@@ -105,4 +105,4 @@ namespace TestEngine.Services
             inventory.RemoveItems(new List<ItemQuantity> { new ItemQuantity(1, 3) });
         }
     }
-    }
+}

@@ -17,6 +17,6 @@ namespace Engine.Shared
             return (T)Convert.ChangeType(xmlAttribute.Value, typeof(T));
         }
 
-        public static List<Item> GetItemsThatAre(this List<Item> inventory,Item.ItemCategory category)=> inventory.Where(i => i.Category == category).ToList();
+        public static List<Item> GetItemsThatAre(this List<Item> inventory, Item.ItemCategory category) => inventory.Where(i => i.Category == category).ToList();
     }
 }

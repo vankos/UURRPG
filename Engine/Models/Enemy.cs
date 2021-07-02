@@ -13,24 +13,24 @@ namespace Engine.Models
 
         public int RewardExp { get; }
 
-        public Enemy(int id, string name, string imageName, int maxHealth, Item weapon , int rewardExp, int rewardCredits) :
-            base(name, maxHealth, maxHealth, rewardCredits)
+        public Enemy(int id, string name, string imageName, int maxHealth, int dexterity, Item weapon, int rewardExp, int rewardCredits) :
+            base(name, maxHealth, maxHealth, dexterity, rewardCredits)
         {
             ID = id;
-            ImageName =imageName;
+            ImageName = imageName;
             RewardExp = rewardExp;
             CurrentWeapon = weapon;
         }
 
         public void AddItemToLootTable(int id, int percentage)
         {
-            _lootTable.RemoveAll(ip => ip.ID==id);
+            _lootTable.RemoveAll(ip => ip.ID == id);
             _lootTable.Add(new ItemPercentage(id, percentage));
         }
 
         public Enemy GetNewInstance()
         {
-            Enemy newEnemy = new Enemy(ID, Name, ImageName, MaxHealth, CurrentWeapon.Clone() as Item, RewardExp, Credits);
+            Enemy newEnemy = new Enemy(ID, Name, ImageName, MaxHealth, Dexterity, CurrentWeapon.Clone() as Item, RewardExp, Credits);
 
             foreach (var itemPercentage in _lootTable)
             {

@@ -34,7 +34,7 @@ namespace Engine
         }
 
         #region Public functions
-        public bool HasAllThisItems(IEnumerable<ItemQuantity> items)=> items.All(item => Items.Count(i => i.Id == item.ItemId) >= item.Quantity);
+        public bool HasAllThisItems(IEnumerable<ItemQuantity> items) => items.All(item => Items.Count(i => i.Id == item.ItemId) >= item.Quantity);
         #endregion
 
         #region Private functions

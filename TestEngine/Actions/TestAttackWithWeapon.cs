@@ -7,7 +7,7 @@ using System;
 namespace TestEngine.Actions
 {
     [TestClass]
-    public  class TestAttackWithWeapon
+    public class TestAttackWithWeapon
     {
         [TestMethod]
         public void Test_Constructor_GoodParametrs()
@@ -22,7 +22,7 @@ namespace TestEngine.Actions
         public void Test_Constructor_ItemIsNotAWeapon()
         {
             Item pen = ItemFactory.CreateItem(6);
-           _ = new AttackWithWeapon(pen, 1, 5);
+            _ = new AttackWithWeapon(pen, 1, 5);
         }
 
         [TestMethod]

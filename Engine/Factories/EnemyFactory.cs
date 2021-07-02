@@ -42,6 +42,7 @@ namespace Engine.Factories
                     enemyNode.GetXMLAttributeValue<string>("Name"),
                      $".{rootImagePath}{enemyNode.GetXMLAttributeValue<string>("ImageName")}",
                     enemyNode.GetXMLAttributeValue<int>("MaxHealth"),
+                    enemyNode.GetXMLAttributeValue<int>("Dexterity"),
                     ItemFactory.CreateItem(enemyNode.GetXMLAttributeValue<int>("WeaponId")),
                     enemyNode.GetXMLAttributeValue<int>("RewardXP"),
                     enemyNode.GetXMLAttributeValue<int>("Credits")
@@ -62,6 +63,6 @@ namespace Engine.Factories
             }
         }
 
-        public static Enemy GetMonster(int monsterId)=>_referenceMonsters.Find(i => i.ID == monsterId).GetNewInstance();
+        public static Enemy GetMonster(int monsterId) => _referenceMonsters.Find(i => i.ID == monsterId).GetNewInstance();
     }
 }

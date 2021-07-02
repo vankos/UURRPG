@@ -41,9 +41,9 @@ namespace Engine.Factories
 
                 foreach (XmlNode ingredientItem in schemeNode.SelectNodes("./Ingredients/Item"))
                 {
-                        newScheme.AddIngredient(
-                            ingredientItem.GetXMLAttributeValue<int>("Id"),
-                            ingredientItem.GetXMLAttributeValue<int>("Quantity"));
+                    newScheme.AddIngredient(
+                        ingredientItem.GetXMLAttributeValue<int>("Id"),
+                        ingredientItem.GetXMLAttributeValue<int>("Quantity"));
                 }
 
                 foreach (XmlNode outputItem in schemeNode.SelectNodes("./OutputItems/Item"))

@@ -19,7 +19,7 @@ namespace Engine.Services
             {
                 sw.Write(new string('\n', isInnerException ? 1 : 2));
                 sw.WriteLine(isInnerException ? "INNER EXCEPTION" : $"EXCEPTION:{DateTime.Now}");
-                sw.WriteLine(new string(isInnerException?'-':'=',40));
+                sw.WriteLine(new string(isInnerException ? '-' : '=', 40));
                 sw.WriteLine(exception.Message);
                 sw.WriteLine(exception.StackTrace);
             }
@@ -28,6 +28,6 @@ namespace Engine.Services
                 Log(exception.InnerException, true);
         }
 
-        private static string LogFileName=>Path.Combine(Environment.CurrentDirectory, LOG_FILE_DIRECTORY, $"UURRPG_{DateTime.Today:ddMMyyyy}.log");
+        private static string LogFileName => Path.Combine(Environment.CurrentDirectory, LOG_FILE_DIRECTORY, $"UURRPG_{DateTime.Today:ddMMyyyy}.log");
     }
 }

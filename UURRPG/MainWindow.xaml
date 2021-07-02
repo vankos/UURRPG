@@ -36,6 +36,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -49,12 +50,14 @@
             <Label Grid.Row="1" Grid.Column="1" Content="{Binding CurrentPlayer.CharacterClass }" Foreground="White"/>
             <Label Grid.Row="2" Grid.Column="0" Content="Health:" Foreground="White"/>
             <Label Grid.Row="2" Grid.Column="1" Content="{Binding CurrentPlayer.Health }" Foreground="White"/>
-            <Label Grid.Row="3" Grid.Column="0" Content="Credits:" Foreground="White"/>
-            <Label Grid.Row="3" Grid.Column="1" Content="{Binding CurrentPlayer.Credits }" Foreground="White"/>
-            <Label Grid.Row="4" Grid.Column="0" Content="Level:" Foreground="White"/>
-            <Label Grid.Row="4" Grid.Column="1" Content="{Binding CurrentPlayer.Level }" Foreground="White"/>
-            <Label Grid.Row="5" Grid.Column="0" Content="XP:" Foreground="White"/>
-            <Label Grid.Row="5" Grid.Column="1" Content="{Binding CurrentPlayer.Experience }" Foreground="White"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Dexterity:" Foreground="White"/>
+            <Label Grid.Row="3" Grid.Column="1" Content="{Binding CurrentPlayer.Dexterity }" Foreground="White"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="Credits:" Foreground="White"/>
+            <Label Grid.Row="4" Grid.Column="1" Content="{Binding CurrentPlayer.Credits }" Foreground="White"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="Level:" Foreground="White"/>
+            <Label Grid.Row="5" Grid.Column="1" Content="{Binding CurrentPlayer.Level }" Foreground="White"/>
+            <Label Grid.Row="6" Grid.Column="0" Content="XP:" Foreground="White"/>
+            <Label Grid.Row="6" Grid.Column="1" Content="{Binding CurrentPlayer.Experience }" Foreground="White"/>
         </Grid>
         <!--Location and Monster info-->
         <Grid Grid.Row="1" Background="Black" Grid.ColumnSpan="3" Margin="256,2,8,223" Grid.RowSpan="2" >

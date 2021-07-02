@@ -11,14 +11,6 @@ namespace Engine.Models
         private readonly Player _player;
         private readonly Enemy _enemy;
 
-        private enum Combatant
-        {
-            Player,
-            Enemy
-        }
-
-        private static Combatant FirstAttacker => RandomNumberGenerator.GetRandNumberBetween(1, 2) == 1 ? Combatant.Player : Combatant.Enemy;
-
         public event EventHandler<CombatVictoryEventArgs> OnVictory;
 
         public Battle(Player player, Enemy enemy)
@@ -32,7 +24,7 @@ namespace Engine.Models
 
             _messageBroker.RaiseMessage($"\nYou see a {_enemy.Name}!");
 
-            if (FirstAttacker == Combatant.Enemy)
+            if (CombatService.FirstAttacker(_player, _enemy) == CombatService.Combatant.Enemy)
                 AttackPlayer();
         }
 
@@ -50,7 +42,7 @@ namespace Engine.Models
                 AttackPlayer();
         }
 
-        private void AttackPlayer()=> _enemy.AttackWithCurrentWeapon(_player);
+        private void AttackPlayer() => _enemy.AttackWithCurrentWeapon(_player);
 
         public void Dispose()
         {

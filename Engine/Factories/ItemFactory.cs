@@ -42,16 +42,16 @@ namespace Engine.Factories
                 if (Enum.TryParse(xmlNode.Name, out Item.ItemCategory itemCategory))
                 {
                     Item newItem = new Item(itemCategory,
-                        xmlNode.GetXMLAttributeValue<int>( "ID"),
-                        xmlNode.GetXMLAttributeValue<string>( "Name"),
-                        xmlNode.GetXMLAttributeValue<int>( "Price"),
+                        xmlNode.GetXMLAttributeValue<int>("ID"),
+                        xmlNode.GetXMLAttributeValue<string>("Name"),
+                        xmlNode.GetXMLAttributeValue<int>("Price"),
                         itemCategory == Item.ItemCategory.Weapon);
 
                     if (itemCategory == Item.ItemCategory.Weapon)
                     {
                         newItem.Action = new AttackWithWeapon(newItem,
-                            xmlNode.GetXMLAttributeValue<int>( "MinDamage"),
-                            xmlNode.GetXMLAttributeValue<int>( "MaxDamage"));
+                            xmlNode.GetXMLAttributeValue<int>("MinDamage"),
+                            xmlNode.GetXMLAttributeValue<int>("MaxDamage"));
                     }
                     else if (itemCategory == Item.ItemCategory.Consumable)
                     {

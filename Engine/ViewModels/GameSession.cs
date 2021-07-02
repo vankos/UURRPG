@@ -107,7 +107,7 @@ namespace Engine.ViewModels
 
         public void StartTheGame()
         {
-            CurrentPlayer = new Player("John Doe", "Scientist", 0, 10, 10, 100);
+            CurrentPlayer = new Player("John Doe", "Scientist", 0, 10, 10, 10, 100);
 
             if (CurrentPlayer.Inventory.Weapons.Count == 0)
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateItem(1));

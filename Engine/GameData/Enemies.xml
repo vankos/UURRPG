@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Enemies RootImagePath ="/Images/Enemies/">
-  <Enemy Id="1" Name="Snail" MaxHealth="4" WeaponId="5" RewardXP="5" Credits="1" ImageName="snail.png" >
+  <Enemy Id="1" Name="Snail" MaxHealth="4" Dexterity="4"  WeaponId="5" RewardXP="5" Credits="1" ImageName="snail.png" >
     <LootItems>
       <LootItem Id="3" DropChance="80"/>
       <LootItem Id="4" DropChance="60"/>
