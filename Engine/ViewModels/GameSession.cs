@@ -4,6 +4,8 @@ using Engine.Models.Quests;
 using System.Linq;
 using Engine.Models.Items;
 using Engine.Services;
+using System;
+using Newtonsoft.Json;
 
 namespace Engine.ViewModels
 {
@@ -93,6 +95,8 @@ namespace Engine.ViewModels
             }
         }
 
+        public string ParserVersion { get; } = "1.0";
+
         public bool HasLocationToNorth => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
 
         public bool HasLocationToEast => CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null;
@@ -105,6 +109,14 @@ namespace Engine.ViewModels
 
         public bool HasTrader => CurrentTrader != null;
 
+        [JsonIgnore]
+        public Action StartTheGameRef { get; set; }
+
+        public GameSession()
+        {
+            StartTheGameRef = StartTheGame;
+        }
+
         public void StartTheGame()
         {
             CurrentPlayer = new Player("John Doe", "Scientist", 0, 10, 10, 10, 100);
@@ -116,6 +128,12 @@ namespace Engine.ViewModels
 
             CurrentWorld = WorldFactory.CreateWorld();
             CurrentLocation = CurrentWorld.LocationAt(0, 0);
+        }
+        public void StartTheGame(Player player, int x, int y)
+        {
+            CurrentPlayer = player;
+            CurrentWorld = WorldFactory.CreateWorld();
+            CurrentLocation = CurrentWorld.LocationAt(x, y);
         }
 
         public void MoveNorth()

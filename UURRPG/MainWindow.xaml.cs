@@ -25,9 +25,9 @@ namespace UI
         {
             InitializeComponent();
             InitializeUserInputAction();
-            _gameSession = new GameSession();
+            _gameSession =SaveGameService.LoadSavedOrCreateNewSession();
             _messageBroker.OnMessageRaised += OnMessageRaised;
-            _gameSession.StartTheGame();
+            _gameSession.StartTheGameRef.Invoke();
             DataContext = _gameSession;
         }
 
@@ -98,5 +98,7 @@ namespace UI
                 }
             }
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)=>SaveGameService.Save(_gameSession);
     }
 }
