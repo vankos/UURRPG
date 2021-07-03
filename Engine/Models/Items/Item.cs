@@ -1,5 +1,6 @@
 ﻿using System;
 using Engine.Actions;
+using Newtonsoft.Json;
 
 namespace Engine.Models.Items
 {
@@ -12,11 +13,16 @@ namespace Engine.Models.Items
             Consumable
         }
 
+        [JsonIgnore]
         public ItemCategory Category { get; }
         public int Id { get; }
+        [JsonIgnore]
         public string Name { get; }
+        [JsonIgnore]
         public int Price { get; }
+        [JsonIgnore]
         public bool IsUnique { get; }
+        [JsonIgnore]
         public IAction Action { get; set; }
 
         public Item(ItemCategory category, int id, string name, int price, bool isUnique = false, IAction action = null)

@@ -1,4 +1,5 @@
 ﻿using Engine.Models.Quests;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,12 @@ namespace Engine.Models.Items
     public class Scheme
     {
         public int ID { get; }
+        [JsonIgnore]
         public string Name { get; }
 
+        [JsonIgnore]
         public List<ItemQuantity> RequiredItems { get; } = new List<ItemQuantity>();
+        [JsonIgnore]
         public List<ItemQuantity> QutputItems { get; } = new List<ItemQuantity>();
 
         public Scheme(int iD, string name)

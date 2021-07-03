@@ -58,8 +58,10 @@ namespace Engine.ViewModels
             }
         }
 
+        [JsonIgnore]
         public World CurrentWorld { get; set; }
 
+        [JsonIgnore]
         public Enemy CurrentEnemy
         {
             get { return _currentEnemy; }
@@ -84,6 +86,7 @@ namespace Engine.ViewModels
             }
         }
 
+        [JsonIgnore]
         public Trader CurrentTrader
         {
             get { return _currentTrader; }
@@ -97,16 +100,22 @@ namespace Engine.ViewModels
 
         public string ParserVersion { get; } = "1.0";
 
+        [JsonIgnore]
         public bool HasLocationToNorth => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
 
+        [JsonIgnore]
         public bool HasLocationToEast => CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null;
 
+        [JsonIgnore]
         public bool HasLocationToWest => CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
 
+        [JsonIgnore]
         public bool HasLocationToSouth => CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null;
 
+        [JsonIgnore]
         public bool HasMonster => CurrentEnemy != null;
 
+        [JsonIgnore]
         public bool HasTrader => CurrentTrader != null;
 
         [JsonIgnore]

@@ -1,6 +1,7 @@
 ﻿using Engine.Models.Items;
 using Engine.Models.Quests;
 using Engine.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -122,6 +123,7 @@ namespace Engine.Models
             }
         }
 
+        [JsonIgnore]
         public bool IsDead => Health <= 0;
 
         public event EventHandler OnKilled;

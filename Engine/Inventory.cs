@@ -1,7 +1,7 @@
 ﻿using Engine.Models.Items;
 using Engine.Models.Quests;
 using Engine.Shared;
-using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,9 +16,13 @@ namespace Engine
 
         #region Properties
         public IReadOnlyList<Item> Items => _inventory.AsReadOnly();
+        [JsonIgnore]
         public IReadOnlyList<GroupedInventoryItem> GroupedInventory => _groupedItems.AsReadOnly();
+        [JsonIgnore]
         public IReadOnlyList<Item> Weapons => _inventory.GetItemsThatAre(Item.ItemCategory.Weapon).AsReadOnly();
+        [JsonIgnore]
         public IReadOnlyList<Item> Consumables => _inventory.GetItemsThatAre(Item.ItemCategory.Consumable).AsReadOnly();
+        [JsonIgnore]
         public bool HasConsumable => Consumables.Count > 0;
         #endregion
 

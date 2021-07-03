@@ -2,6 +2,7 @@
 using System.Linq;
 using Engine.Factories;
 using Engine.Models.Quests;
+using Newtonsoft.Json;
 
 namespace Engine.Models
 {
@@ -9,14 +10,17 @@ namespace Engine.Models
     {
         public int XCoordinate { get; }
         public int YCoordinate { get; }
+        [JsonIgnore]
         public string Name { get; }
+        [JsonIgnore]
         public string Description { get; }
+        [JsonIgnore]
         public string BackgroundImageName { get; }
-
+        [JsonIgnore]
         public List<Quest> AvailibleQuests { get; } = new List<Quest>();
-
+        [JsonIgnore]
         public List<MonsterEncounter> PossibleMonsters { get; } = new List<MonsterEncounter>();
-
+        [JsonIgnore]
         public Trader LocalTrader { get; set; }
 
         public Location(int xCoordinate, int yCoordinate, string name, string description, string backgroundImageName)

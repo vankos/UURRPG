@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Engine.Models.Quests
@@ -6,13 +7,17 @@ namespace Engine.Models.Quests
     public class Quest
     {
         public int ID { get; }
+        [JsonIgnore]
         public string Name { get; }
+        [JsonIgnore]
         public string Description { get; }
-
+        [JsonIgnore]
         public List<ItemQuantity> Requirements { get; }
-
+        [JsonIgnore]
         public int RewardExperience { get; }
+        [JsonIgnore]
         public int RewardCredits { get; }
+        [JsonIgnore]
         public List<ItemQuantity> RewardItems { get; }
 
         public Quest(int iD, string name, string description, List<ItemQuantity> requirements, List<ItemQuantity> rewardItems, int rewardExperience, int rewardCredits)
@@ -26,6 +31,7 @@ namespace Engine.Models.Quests
             RewardCredits = rewardCredits;
         }
 
+        [JsonIgnore]
         public string TooltipMessage
         {
             get
