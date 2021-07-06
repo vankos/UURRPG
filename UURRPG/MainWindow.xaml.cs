@@ -9,6 +9,8 @@ using Engine.Services;
 using Engine.ViewModels;
 using UURRPG;
 using System.Windows.Controls;
+using Microsoft.Win32;
+using UURRPG.Windows;
 
 namespace UI
 {
@@ -18,14 +20,23 @@ namespace UI
     public partial class MainWindow : Window
     {
         private readonly MessageBroker _messageBroker = MessageBroker.GetInstance();
-        private readonly GameSession _gameSession;
+        private GameSession _gameSession;
         private readonly Dictionary<Key, Action> _userInputActions = new Dictionary<Key, Action>();
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeUserInputAction();
-            _gameSession =SaveGameService.LoadSavedOrCreateNewSession();
+            SetActiveGameSessionTo(new GameSession());
+        }
+
+        private void SetActiveGameSessionTo(GameSession gameSession)
+        {
+            _messageBroker.OnMessageRaised -= OnMessageRaised;
+
+            _gameSession = gameSession;
+
+            GameLog.Document.Blocks.Clear();
             _messageBroker.OnMessageRaised += OnMessageRaised;
             _gameSession.StartTheGameRef.Invoke();
             DataContext = _gameSession;
@@ -99,6 +110,44 @@ namespace UI
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)=>SaveGameService.Save(_gameSession);
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            YesNoWindow message = new YesNoWindow("Save game", "Do you want to save your game?")
+            {
+                Owner = GetWindow(this)
+            };
+            message.ShowDialog();
+
+            if (message.ClickedYes)
+                SaveGame();
+        }
+        private void StartNewGame_Click(object sender, RoutedEventArgs e)=> SetActiveGameSessionTo(new GameSession());
+
+        private void LoadGame_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                Filter = "Saved games (*.json)|*.josn"
+            };
+
+            if (openFileDialog.ShowDialog()==true)
+                SetActiveGameSessionTo(SaveGameService.LoadSavedOrCreateNewSession(openFileDialog.FileName));
+        }
+
+        private void SaveGame_Click(object sender, RoutedEventArgs e) => SaveGame();
+        private void SaveGame()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                InitialDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                Filter = "Saved games (*.json)|*.josn"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+                SaveGameService.Save(_gameSession, saveFileDialog.FileName);
+        }
+
+        private void ExitGame_Click(object sender, RoutedEventArgs e)=>Close();
     }
 }
