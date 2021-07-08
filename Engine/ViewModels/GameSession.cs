@@ -71,6 +71,7 @@ namespace Engine.ViewModels
                 {
                     _currentBattle.OnVictory -= OnCurrentEnemyKilled;
                     _currentBattle.Dispose();
+                    _currentBattle= null;
                 }
 
                 _currentEnemy = value;
@@ -192,7 +193,7 @@ namespace Engine.ViewModels
             }
         }
 
-        public void AttackEnemy() => _currentBattle.AttackEnemy();
+        public void AttackEnemy() => _currentBattle?.AttackEnemy();
 
         private void CompleteQuestsAtLocation()
         {
@@ -227,10 +228,20 @@ namespace Engine.ViewModels
         public void UseCurrentConsumable()
         {
             if (CurrentPlayer.CurrentConsumable == null) return;
-
+            if (_currentBattle == null)
+            {
+                CurrentPlayer.OnActionPerformed += OnConumableActionPerformed;
+            }
             CurrentPlayer.UseCurrentConsumable(CurrentPlayer);
             CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.CurrentConsumable);
+            if (_currentBattle == null)
+            {
+                CurrentPlayer.OnActionPerformed -= OnConumableActionPerformed;
+            }
+
         }
+
+        private void OnConumableActionPerformed(object sender, string result) => _messageBroker.RaiseMessage(result);
 
         public void CraftItemUsing(Scheme scheme)
         {
