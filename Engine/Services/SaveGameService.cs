@@ -84,15 +84,15 @@ namespace Engine.Services
             }
         }
 
-    private static void PopulatePlayerQuests(JObject data, Player player)
-    {
-        string fileversion = ParserVersion(data);
-
-        switch (fileversion)
+        private static void PopulatePlayerQuests(JObject data, Player player)
         {
-            case "1.0":
-                foreach (JToken questToken in (JArray)data[nameof(GameSession.CurrentPlayer)][nameof(Player.Quests)])
-                {
+            string fileversion = ParserVersion(data);
+
+            switch (fileversion)
+            {
+                case "1.0":
+                    foreach (JToken questToken in (JArray)data[nameof(GameSession.CurrentPlayer)][nameof(Player.Quests)])
+                    {
                         int questId = (int)questToken[nameof(QuestStatus.PlayerQuest)][nameof(QuestStatus.PlayerQuest.ID)];
                         Quest quest = QuestFactory.GetQuestByID(questId);
                         QuestStatus questStatus = new QuestStatus(quest)
@@ -101,30 +101,30 @@ namespace Engine.Services
                         };
 
                         player.Quests.Add(questStatus);
-                }
-                break;
-            default:
-                throw new InvalidDataException($"File version {fileversion} is not supported");
+                    }
+                    break;
+                default:
+                    throw new InvalidDataException($"File version {fileversion} is not supported");
+            }
         }
-    }
 
-    private static void PopulatePlayerInventory(JObject data, Player player)
-    {
-        string fileversion = ParserVersion(data);
-
-        switch (fileversion)
+        private static void PopulatePlayerInventory(JObject data, Player player)
         {
-            case "1.0":
-                foreach (JToken itemToken in (JArray)data[nameof(GameSession.CurrentPlayer)][nameof(Player.Inventory)][nameof(Inventory.Items)])
-                {
-                    int itemId = (int)itemToken[nameof(Item.Id)];
-                    player.AddItemToInventory(ItemFactory.CreateItem(itemId));
-                }
-                break;
-            default:
-                throw new InvalidDataException($"File version {fileversion} is not supported");
+            string fileversion = ParserVersion(data);
+
+            switch (fileversion)
+            {
+                case "1.0":
+                    foreach (JToken itemToken in (JArray)data[nameof(GameSession.CurrentPlayer)][nameof(Player.Inventory)][nameof(Inventory.Items)])
+                    {
+                        int itemId = (int)itemToken[nameof(Item.Id)];
+                        player.AddItemToInventory(ItemFactory.CreateItem(itemId));
+                    }
+                    break;
+                default:
+                    throw new InvalidDataException($"File version {fileversion} is not supported");
+            }
         }
-    }
 
         private static string ParserVersion(JObject data) => (string)data[nameof(GameSession.ParserVersion)];
     }

@@ -121,7 +121,7 @@ namespace UI
             if (message.ClickedYes)
                 SaveGame();
         }
-        private void StartNewGame_Click(object sender, RoutedEventArgs e)=> SetActiveGameSessionTo(new GameSession());
+        private void StartNewGame_Click(object sender, RoutedEventArgs e) => SetActiveGameSessionTo(new GameSession());
 
         private void LoadGame_Click(object sender, RoutedEventArgs e)
         {
@@ -131,7 +131,7 @@ namespace UI
                 Filter = "Saved games (*.json)|*.josn"
             };
 
-            if (openFileDialog.ShowDialog()==true)
+            if (openFileDialog.ShowDialog() == true)
                 SetActiveGameSessionTo(SaveGameService.LoadSavedOrCreateNewSession(openFileDialog.FileName));
         }
 
@@ -148,6 +148,6 @@ namespace UI
                 SaveGameService.Save(_gameSession, saveFileDialog.FileName);
         }
 
-        private void ExitGame_Click(object sender, RoutedEventArgs e)=>Close();
+        private void ExitGame_Click(object sender, RoutedEventArgs e) => Close();
     }
 }

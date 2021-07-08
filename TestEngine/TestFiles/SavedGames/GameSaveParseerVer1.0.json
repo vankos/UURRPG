@@ -1,0 +1,58 @@
+﻿{
+	"CurrentPlayer": {
+		"CharacterClass": "Scientist",
+		"Experience": 45,
+		"Quests": [
+			{
+				"PlayerQuest": {
+					"ID": 1
+				},
+				"IsComplete": true
+			}
+		],
+		"Schemes": [
+			{
+				"ID": 1,
+				"TooltipMessage": "You need:\r\n1xSnail's sneeze\r\n1xSlime\r\n"
+			}
+		],
+		"Name": "John Doe",
+		"Health": 6,
+		"Dexterity": 10,
+		"MaxHealth": 10,
+		"Credits": 112,
+		"Level": 1,
+		"Inventory": {
+			"Items": [
+				{
+					"Id": 1
+				},
+				{
+					"Id": 6
+				},
+				{
+					"Id": 4
+				},
+				{
+					"Id": 4
+				},
+				{
+					"Id": 4
+				},
+				{
+					"Id": 4
+				},
+				{
+					"Id": 2
+				}
+			]
+		},
+		"CurrentWeapon": null,
+		"CurrentConsumable": null
+	},
+	"CurrentLocation": {
+		"XCoordinate": 0,
+		"YCoordinate": -1
+	},
+	"ParserVersion": "1.0"
+}
